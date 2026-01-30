@@ -1,0 +1,1818 @@
+{
+  "generated_at": "2026-01-29T23:43:05.394337",
+  "total_sets": 2326,
+  "weeks_tracked": 109.0,
+  "date_range": [
+    "2023-12-20",
+    "2026-01-22"
+  ],
+  "exercises": {
+    "bench_press": {
+      "total_sets": 297,
+      "total_reps": 1748,
+      "total_volume_kg": 81400.2,
+      "pr_weight": {
+        "kg": 90.72,
+        "reps": 1,
+        "date": "2026-01-22",
+        "display": "90.72kg x 1"
+      },
+      "pr_volume": {
+        "kg": 52.16,
+        "reps": 14,
+        "volume": 730.24,
+        "date": "2025-02-26",
+        "display": "52.16kg x 14 = 730.24kg"
+      },
+      "estimated_1rm": {
+        "value": 90.7,
+        "from_set": "90.72kg x 1",
+        "date": "2026-01-22"
+      },
+      "top_sets": [
+        {
+          "weight_kg": 90.72,
+          "reps": 1,
+          "volume": 90.72,
+          "e1rm": 90.7,
+          "date": "2026-01-22",
+          "display": "90.72kg x 1"
+        },
+        {
+          "weight_kg": 90.72,
+          "reps": 1,
+          "volume": 90.72,
+          "e1rm": 90.7,
+          "date": "2026-01-10",
+          "display": "90.72kg x 1"
+        },
+        {
+          "weight_kg": 90.72,
+          "reps": 1,
+          "volume": 90.72,
+          "e1rm": 90.7,
+          "date": "2025-07-31",
+          "display": "90.72kg x 1"
+        },
+        {
+          "weight_kg": 88.45,
+          "reps": 1,
+          "volume": 88.45,
+          "e1rm": 88.5,
+          "date": "2026-01-10",
+          "display": "88.45kg x 1"
+        },
+        {
+          "weight_kg": 88.45,
+          "reps": 1,
+          "volume": 88.45,
+          "e1rm": 88.5,
+          "date": "2026-01-06",
+          "display": "88.45kg x 1"
+        }
+      ],
+      "trend": {
+        "direction": "insufficient_data",
+        "change_percent": 0
+      },
+      "frequency_per_week": 0.8,
+      "total_sessions": 82,
+      "days_since_last": 7,
+      "rep_distribution": {
+        "heavy_1_5": 54.2,
+        "moderate_6_10": 35.4,
+        "light_11_plus": 10.4
+      },
+      "recent_sessions": [
+        {
+          "date": "2026-01-22",
+          "sets": [
+            "20.41kg x 20",
+            "43.09kg x 10",
+            "61.24kg x 5",
+            "70.31kg x 3",
+            "79.38kg x 3",
+            "90.72kg x 1"
+          ],
+          "sets_display": "20.41kg x 20 \u2192 43.09kg x 10 \u2192 61.24kg x 5 \u2192 70.31kg x 3 \u2192 79.38kg x 3 \u2192 90.72kg x 1",
+          "top_set": "90.72kg x 1",
+          "total_sets": 6,
+          "session_volume": 1685.1
+        },
+        {
+          "date": "2026-01-10",
+          "sets": [
+            "20.41kg x 10",
+            "34.02kg x 10",
+            "61.24kg x 4",
+            "74.84kg x 3",
+            "83.91kg x 1",
+            "88.45kg x 1",
+            "90.72kg x 1"
+          ],
+          "sets_display": "20.41kg x 10 \u2192 34.02kg x 10 \u2192 61.24kg x 4 \u2192 74.84kg x 3 \u2192 83.91kg x 1 \u2192 88.45kg x 1 \u2192 90.72kg x 1",
+          "top_set": "90.72kg x 1",
+          "total_sets": 7,
+          "session_volume": 1276.9
+        },
+        {
+          "date": "2026-01-06",
+          "sets": [
+            "20.41kg x 15",
+            "43.09kg x 8",
+            "65.77kg x 5",
+            "74.84kg x 1",
+            "83.91kg x 1",
+            "88.45kg x 1"
+          ],
+          "sets_display": "20.41kg x 15 \u2192 43.09kg x 8 \u2192 65.77kg x 5 \u2192 74.84kg x 1 \u2192 83.91kg x 1 \u2192 88.45kg x 1",
+          "top_set": "88.45kg x 1",
+          "total_sets": 6,
+          "session_volume": 1226.9
+        }
+      ],
+      "summary": "Trained 0.8x/week. PR: 90.72kg x 1. Est. 1RM: 90.7kg (from 90.72kg x 1). Favors heavy singles/doubles."
+    },
+    "incline_fly": {
+      "total_sets": 121,
+      "total_reps": 1045,
+      "total_volume_kg": 33221.2,
+      "pr_weight": {
+        "kg": 45.36,
+        "reps": 6,
+        "date": "2025-06-30",
+        "display": "45.36kg x 6"
+      },
+      "pr_volume": {
+        "kg": 35.0,
+        "reps": 12,
+        "volume": 420.0,
+        "date": "2024-07-09",
+        "display": "35.0kg x 12 = 420.0kg"
+      },
+      "estimated_1rm": {
+        "value": 55.9,
+        "from_set": "45.36kg x 7",
+        "date": "2025-06-07"
+      },
+      "top_sets": [
+        {
+          "weight_kg": 45.36,
+          "reps": 6,
+          "volume": 272.15999999999997,
+          "e1rm": 54.4,
+          "date": "2025-06-30",
+          "display": "45.36kg x 6"
+        },
+        {
+          "weight_kg": 45.36,
+          "reps": 6,
+          "volume": 272.15999999999997,
+          "e1rm": 54.4,
+          "date": "2025-06-30",
+          "display": "45.36kg x 6"
+        },
+        {
+          "weight_kg": 45.36,
+          "reps": 6,
+          "volume": 272.15999999999997,
+          "e1rm": 54.4,
+          "date": "2025-06-27",
+          "display": "45.36kg x 6"
+        },
+        {
+          "weight_kg": 45.36,
+          "reps": 6,
+          "volume": 272.15999999999997,
+          "e1rm": 54.4,
+          "date": "2025-06-27",
+          "display": "45.36kg x 6"
+        },
+        {
+          "weight_kg": 45.36,
+          "reps": 6,
+          "volume": 272.15999999999997,
+          "e1rm": 54.4,
+          "date": "2025-06-27",
+          "display": "45.36kg x 6"
+        }
+      ],
+      "trend": {
+        "direction": "insufficient_data",
+        "change_percent": 0
+      },
+      "frequency_per_week": 0.4,
+      "total_sessions": 45,
+      "days_since_last": 7,
+      "rep_distribution": {
+        "heavy_1_5": 7.4,
+        "moderate_6_10": 78.5,
+        "light_11_plus": 14.0
+      },
+      "recent_sessions": [
+        {
+          "date": "2026-01-22",
+          "sets": [
+            "27.22kg x 8",
+            "27.22kg x 8"
+          ],
+          "sets_display": "27.22kg x 8 \u2192 27.22kg x 8",
+          "top_set": "27.22kg x 8",
+          "total_sets": 2,
+          "session_volume": 435.5
+        },
+        {
+          "date": "2026-01-21",
+          "sets": [
+            "27.22kg x 10",
+            "27.22kg x 10"
+          ],
+          "sets_display": "27.22kg x 10 \u2192 27.22kg x 10",
+          "top_set": "27.22kg x 10",
+          "total_sets": 2,
+          "session_volume": 544.4
+        },
+        {
+          "date": "2026-01-06",
+          "sets": [
+            "27.22kg x 10",
+            "40.82kg x 10"
+          ],
+          "sets_display": "27.22kg x 10 \u2192 40.82kg x 10",
+          "top_set": "40.82kg x 10",
+          "total_sets": 2,
+          "session_volume": 680.4
+        }
+      ],
+      "summary": "Trained 0.4x/week. PR: 45.36kg x 6. Est. 1RM: 55.9kg (from 45.36kg x 7). Favors moderate reps (6-10)."
+    },
+    "bicep_curl": {
+      "total_sets": 14,
+      "total_reps": 123,
+      "total_volume_kg": 2847.9,
+      "pr_weight": {
+        "kg": 40.0,
+        "reps": 2,
+        "date": "2024-04-06",
+        "display": "40.0kg x 2"
+      },
+      "pr_volume": {
+        "kg": 20.0,
+        "reps": 20,
+        "volume": 400.0,
+        "date": "2024-04-06",
+        "display": "20.0kg x 20 = 400.0kg"
+      },
+      "estimated_1rm": {
+        "value": 43.4,
+        "from_set": "31.75kg x 11",
+        "date": "2026-01-22"
+      },
+      "top_sets": [
+        {
+          "weight_kg": 40.0,
+          "reps": 2,
+          "volume": 80.0,
+          "e1rm": 42.7,
+          "date": "2024-04-06",
+          "display": "40.0kg x 2"
+        },
+        {
+          "weight_kg": 36.29,
+          "reps": 5,
+          "volume": 181.45,
+          "e1rm": 42.3,
+          "date": "2026-01-22",
+          "display": "36.29kg x 5"
+        },
+        {
+          "weight_kg": 31.75,
+          "reps": 9,
+          "volume": 285.75,
+          "e1rm": 41.3,
+          "date": "2026-01-22",
+          "display": "31.75kg x 9"
+        },
+        {
+          "weight_kg": 31.75,
+          "reps": 11,
+          "volume": 349.25,
+          "e1rm": 43.4,
+          "date": "2026-01-22",
+          "display": "31.75kg x 11"
+        },
+        {
+          "weight_kg": 27.22,
+          "reps": 10,
+          "volume": 272.2,
+          "e1rm": 36.3,
+          "date": "2025-05-24",
+          "display": "27.22kg x 10"
+        }
+      ],
+      "trend": {
+        "direction": "insufficient_data",
+        "change_percent": 0
+      },
+      "frequency_per_week": 0.0,
+      "total_sessions": 5,
+      "days_since_last": 7,
+      "rep_distribution": {
+        "heavy_1_5": 28.6,
+        "moderate_6_10": 35.7,
+        "light_11_plus": 35.7
+      },
+      "recent_sessions": [
+        {
+          "date": "2026-01-22",
+          "sets": [
+            "13.61kg x 15",
+            "31.75kg x 9",
+            "36.29kg x 5",
+            "31.75kg x 11"
+          ],
+          "sets_display": "13.61kg x 15 \u2192 31.75kg x 9 \u2192 36.29kg x 5 \u2192 31.75kg x 11",
+          "top_set": "36.29kg x 5",
+          "total_sets": 4,
+          "session_volume": 1020.6
+        },
+        {
+          "date": "2025-05-24",
+          "sets": [
+            "13.61kg x 15",
+            "27.22kg x 10",
+            "27.22kg x 8"
+          ],
+          "sets_display": "13.61kg x 15 \u2192 27.22kg x 10 \u2192 27.22kg x 8",
+          "top_set": "27.22kg x 10",
+          "total_sets": 3,
+          "session_volume": 694.1
+        },
+        {
+          "date": "2025-01-26",
+          "sets": [
+            "22.68kg x 11",
+            "27.22kg x 6",
+            "18.14kg x 2"
+          ],
+          "sets_display": "22.68kg x 11 \u2192 27.22kg x 6 \u2192 18.14kg x 2",
+          "top_set": "27.22kg x 6",
+          "total_sets": 3,
+          "session_volume": 449.1
+        }
+      ],
+      "summary": "Trained 0.0x/week. PR: 40.0kg x 2. Est. 1RM: 43.4kg (from 31.75kg x 11)."
+    },
+    "triceps_pushdown": {
+      "total_sets": 132,
+      "total_reps": 1257,
+      "total_volume_kg": 50311.9,
+      "pr_weight": {
+        "kg": 72.57,
+        "reps": 3,
+        "date": "2024-11-23",
+        "display": "72.57kg x 3"
+      },
+      "pr_volume": {
+        "kg": 58.97,
+        "reps": 15,
+        "volume": 884.55,
+        "date": "2024-11-25",
+        "display": "58.97kg x 15 = 884.55kg"
+      },
+      "estimated_1rm": {
+        "value": 88.5,
+        "from_set": "58.97kg x 15",
+        "date": "2024-11-25"
+      },
+      "top_sets": [
+        {
+          "weight_kg": 72.57,
+          "reps": 3,
+          "volume": 217.70999999999998,
+          "e1rm": 79.8,
+          "date": "2024-11-23",
+          "display": "72.57kg x 3"
+        },
+        {
+          "weight_kg": 68.04,
+          "reps": 4,
+          "volume": 272.16,
+          "e1rm": 77.1,
+          "date": "2025-01-31",
+          "display": "68.04kg x 4"
+        },
+        {
+          "weight_kg": 60.0,
+          "reps": 7,
+          "volume": 420.0,
+          "e1rm": 74.0,
+          "date": "2024-07-13",
+          "display": "60.0kg x 7"
+        },
+        {
+          "weight_kg": 60.0,
+          "reps": 7,
+          "volume": 420.0,
+          "e1rm": 74.0,
+          "date": "2024-07-13",
+          "display": "60.0kg x 7"
+        },
+        {
+          "weight_kg": 60.0,
+          "reps": 7,
+          "volume": 420.0,
+          "e1rm": 74.0,
+          "date": "2024-07-10",
+          "display": "60.0kg x 7"
+        }
+      ],
+      "trend": {
+        "direction": "increasing",
+        "avg_weight_recent": 27.2,
+        "avg_weight_previous": 25.7,
+        "change_percent": 5.9
+      },
+      "frequency_per_week": 0.3,
+      "total_sessions": 31,
+      "days_since_last": 7,
+      "rep_distribution": {
+        "heavy_1_5": 23.5,
+        "moderate_6_10": 42.4,
+        "light_11_plus": 34.1
+      },
+      "recent_sessions": [
+        {
+          "date": "2026-01-22",
+          "sets": [
+            "27.22kg x 11",
+            "27.22kg x 10",
+            "27.22kg x 10"
+          ],
+          "sets_display": "27.22kg x 11 \u2192 27.22kg x 10 \u2192 27.22kg x 10",
+          "top_set": "27.22kg x 11",
+          "total_sets": 3,
+          "session_volume": 843.8
+        },
+        {
+          "date": "2025-12-23",
+          "sets": [
+            "22.68kg x 12",
+            "27.22kg x 11",
+            "27.22kg x 10"
+          ],
+          "sets_display": "22.68kg x 12 \u2192 27.22kg x 11 \u2192 27.22kg x 10",
+          "top_set": "27.22kg x 11",
+          "total_sets": 3,
+          "session_volume": 843.8
+        },
+        {
+          "date": "2025-09-09",
+          "sets": [
+            "22.68kg x 20",
+            "45.36kg x 8",
+            "54.43kg x 8"
+          ],
+          "sets_display": "22.68kg x 20 \u2192 45.36kg x 8 \u2192 54.43kg x 8",
+          "top_set": "54.43kg x 8",
+          "total_sets": 3,
+          "session_volume": 1251.9
+        }
+      ],
+      "summary": "Trained 0.3x/week. PR: 72.57kg x 3. Est. 1RM: 88.5kg (from 58.97kg x 15). Trending up (+5.9%)."
+    },
+    "lat_pulldown_close_grip": {
+      "total_sets": 43,
+      "total_reps": 351,
+      "total_volume_kg": 15310.5,
+      "pr_weight": {
+        "kg": 60.0,
+        "reps": 6,
+        "date": "2024-08-11",
+        "display": "60.0kg x 6"
+      },
+      "pr_volume": {
+        "kg": 54.43,
+        "reps": 14,
+        "volume": 762.02,
+        "date": "2024-12-04",
+        "display": "54.43kg x 14 = 762.02kg"
+      },
+      "estimated_1rm": {
+        "value": 79.8,
+        "from_set": "54.43kg x 14",
+        "date": "2024-12-04"
+      },
+      "top_sets": [
+        {
+          "weight_kg": 60.0,
+          "reps": 6,
+          "volume": 360.0,
+          "e1rm": 72.0,
+          "date": "2024-08-11",
+          "display": "60.0kg x 6"
+        },
+        {
+          "weight_kg": 60.0,
+          "reps": 8,
+          "volume": 480.0,
+          "e1rm": 76.0,
+          "date": "2024-07-31",
+          "display": "60.0kg x 8"
+        },
+        {
+          "weight_kg": 60.0,
+          "reps": 8,
+          "volume": 480.0,
+          "e1rm": 76.0,
+          "date": "2024-07-31",
+          "display": "60.0kg x 8"
+        },
+        {
+          "weight_kg": 56.7,
+          "reps": 6,
+          "volume": 340.20000000000005,
+          "e1rm": 68.0,
+          "date": "2024-11-10",
+          "display": "56.7kg x 6"
+        },
+        {
+          "weight_kg": 54.43,
+          "reps": 8,
+          "volume": 435.44,
+          "e1rm": 68.9,
+          "date": "2025-12-24",
+          "display": "54.43kg x 8"
+        }
+      ],
+      "trend": {
+        "direction": "decreasing",
+        "avg_weight_recent": 39.3,
+        "avg_weight_previous": 49.9,
+        "change_percent": -21.2
+      },
+      "frequency_per_week": 0.1,
+      "total_sessions": 15,
+      "days_since_last": 8,
+      "rep_distribution": {
+        "heavy_1_5": 9.3,
+        "moderate_6_10": 81.4,
+        "light_11_plus": 9.3
+      },
+      "recent_sessions": [
+        {
+          "date": "2026-01-21",
+          "sets": [
+            "27.22kg x 10",
+            "45.36kg x 8",
+            "45.36kg x 8"
+          ],
+          "sets_display": "27.22kg x 10 \u2192 45.36kg x 8 \u2192 45.36kg x 8",
+          "top_set": "45.36kg x 8",
+          "total_sets": 3,
+          "session_volume": 998.0
+        },
+        {
+          "date": "2025-12-24",
+          "sets": [
+            "45.36kg x 8",
+            "54.43kg x 8"
+          ],
+          "sets_display": "45.36kg x 8 \u2192 54.43kg x 8",
+          "top_set": "54.43kg x 8",
+          "total_sets": 2,
+          "session_volume": 798.3
+        },
+        {
+          "date": "2025-10-07",
+          "sets": [
+            "27.22kg x 10",
+            "54.43kg x 8",
+            "40.82kg x 6",
+            "54.43kg x 7",
+            "40.82kg x 4"
+          ],
+          "sets_display": "27.22kg x 10 \u2192 54.43kg x 8 \u2192 40.82kg x 6 \u2192 54.43kg x 7 \u2192 40.82kg x 4",
+          "top_set": "54.43kg x 8",
+          "total_sets": 5,
+          "session_volume": 1496.8
+        }
+      ],
+      "summary": "Trained 0.1x/week. PR: 60.0kg x 6. Est. 1RM: 79.8kg (from 54.43kg x 14). Trending down (-21.2%). Favors moderate reps (6-10). Last trained 8 days ago."
+    },
+    "shoulder_press": {
+      "total_sets": 350,
+      "total_reps": 2727,
+      "total_volume_kg": 90454.9,
+      "pr_weight": {
+        "kg": 58.97,
+        "reps": 5,
+        "date": "2025-11-24",
+        "display": "58.97kg x 5"
+      },
+      "pr_volume": {
+        "kg": 45.36,
+        "reps": 13,
+        "volume": 589.68,
+        "date": "2025-10-09",
+        "display": "45.36kg x 13 = 589.68kg"
+      },
+      "estimated_1rm": {
+        "value": 68.9,
+        "from_set": "54.43kg x 8",
+        "date": "2025-10-23"
+      },
+      "top_sets": [
+        {
+          "weight_kg": 58.97,
+          "reps": 5,
+          "volume": 294.85,
+          "e1rm": 68.8,
+          "date": "2025-11-24",
+          "display": "58.97kg x 5"
+        },
+        {
+          "weight_kg": 54.43,
+          "reps": 6,
+          "volume": 326.58,
+          "e1rm": 65.3,
+          "date": "2026-01-06",
+          "display": "54.43kg x 6"
+        },
+        {
+          "weight_kg": 54.43,
+          "reps": 7,
+          "volume": 381.01,
+          "e1rm": 67.1,
+          "date": "2025-11-08",
+          "display": "54.43kg x 7"
+        },
+        {
+          "weight_kg": 54.43,
+          "reps": 7,
+          "volume": 381.01,
+          "e1rm": 67.1,
+          "date": "2025-11-05",
+          "display": "54.43kg x 7"
+        },
+        {
+          "weight_kg": 54.43,
+          "reps": 8,
+          "volume": 435.44,
+          "e1rm": 68.9,
+          "date": "2025-10-23",
+          "display": "54.43kg x 8"
+        }
+      ],
+      "trend": {
+        "direction": "plateau",
+        "avg_weight_recent": 34.5,
+        "avg_weight_previous": 32.9,
+        "change_percent": 4.8
+      },
+      "frequency_per_week": 0.9,
+      "total_sessions": 98,
+      "days_since_last": 8,
+      "rep_distribution": {
+        "heavy_1_5": 27.4,
+        "moderate_6_10": 57.4,
+        "light_11_plus": 15.1
+      },
+      "recent_sessions": [
+        {
+          "date": "2026-01-21",
+          "sets": [
+            "27.22kg x 8",
+            "27.22kg x 8",
+            "36.29kg x 7"
+          ],
+          "sets_display": "27.22kg x 8 \u2192 27.22kg x 8 \u2192 36.29kg x 7",
+          "top_set": "36.29kg x 7",
+          "total_sets": 3,
+          "session_volume": 689.6
+        },
+        {
+          "date": "2026-01-06",
+          "sets": [
+            "27.22kg x 12",
+            "54.43kg x 6"
+          ],
+          "sets_display": "27.22kg x 12 \u2192 54.43kg x 6",
+          "top_set": "54.43kg x 6",
+          "total_sets": 2,
+          "session_volume": 653.2
+        },
+        {
+          "date": "2025-12-23",
+          "sets": [
+            "27.22kg x 8",
+            "27.22kg x 19",
+            "27.22kg x 12"
+          ],
+          "sets_display": "27.22kg x 8 \u2192 27.22kg x 19 \u2192 27.22kg x 12",
+          "top_set": "27.22kg x 8",
+          "total_sets": 3,
+          "session_volume": 1061.6
+        }
+      ],
+      "summary": "Trained 0.9x/week. PR: 58.97kg x 5. Est. 1RM: 68.9kg (from 54.43kg x 8). Plateau. Favors moderate reps (6-10). Last trained 8 days ago."
+    },
+    "barbell_shrug": {
+      "total_sets": 166,
+      "total_reps": 2060,
+      "total_volume_kg": 113635.3,
+      "pr_weight": {
+        "kg": 102.06,
+        "reps": 8,
+        "date": "2025-12-01",
+        "display": "102.06kg x 8"
+      },
+      "pr_volume": {
+        "kg": 70.31,
+        "reps": 22,
+        "volume": 1546.8200000000002,
+        "date": "2025-11-17",
+        "display": "70.31kg x 22 = 1546.8200000000002kg"
+      },
+      "estimated_1rm": {
+        "value": 139.5,
+        "from_set": "92.99kg x 15",
+        "date": "2025-12-09"
+      },
+      "top_sets": [
+        {
+          "weight_kg": 102.06,
+          "reps": 8,
+          "volume": 816.48,
+          "e1rm": 129.3,
+          "date": "2025-12-01",
+          "display": "102.06kg x 8"
+        },
+        {
+          "weight_kg": 102.06,
+          "reps": 8,
+          "volume": 816.48,
+          "e1rm": 129.3,
+          "date": "2025-07-26",
+          "display": "102.06kg x 8"
+        },
+        {
+          "weight_kg": 100.0,
+          "reps": 6,
+          "volume": 600.0,
+          "e1rm": 120.0,
+          "date": "2024-12-31",
+          "display": "100.0kg x 6"
+        },
+        {
+          "weight_kg": 97.52,
+          "reps": 7,
+          "volume": 682.64,
+          "e1rm": 120.3,
+          "date": "2025-01-10",
+          "display": "97.52kg x 7"
+        },
+        {
+          "weight_kg": 92.99,
+          "reps": 15,
+          "volume": 1394.85,
+          "e1rm": 139.5,
+          "date": "2025-12-09",
+          "display": "92.99kg x 15"
+        }
+      ],
+      "trend": {
+        "direction": "decreasing",
+        "avg_weight_recent": 50.5,
+        "avg_weight_previous": 73.8,
+        "change_percent": -31.7
+      },
+      "frequency_per_week": 0.4,
+      "total_sessions": 49,
+      "days_since_last": 8,
+      "rep_distribution": {
+        "heavy_1_5": 5.4,
+        "moderate_6_10": 32.5,
+        "light_11_plus": 62.0
+      },
+      "recent_sessions": [
+        {
+          "date": "2026-01-21",
+          "sets": [
+            "43.09kg x 20",
+            "36.29kg x 25"
+          ],
+          "sets_display": "43.09kg x 20 \u2192 36.29kg x 25",
+          "top_set": "43.09kg x 20",
+          "total_sets": 2,
+          "session_volume": 1769.0
+        },
+        {
+          "date": "2026-01-06",
+          "sets": [
+            "61.24kg x 20",
+            "61.24kg x 15"
+          ],
+          "sets_display": "61.24kg x 20 \u2192 61.24kg x 15",
+          "top_set": "61.24kg x 20",
+          "total_sets": 2,
+          "session_volume": 2143.4
+        },
+        {
+          "date": "2025-12-13",
+          "sets": [
+            "20.41kg x 10",
+            "61.24kg x 15",
+            "83.91kg x 10",
+            "83.91kg x 11",
+            "83.91kg x 12"
+          ],
+          "sets_display": "20.41kg x 10 \u2192 61.24kg x 15 \u2192 83.91kg x 10 \u2192 83.91kg x 11 \u2192 83.91kg x 12",
+          "top_set": "83.91kg x 10",
+          "total_sets": 5,
+          "session_volume": 3891.7
+        }
+      ],
+      "summary": "Trained 0.4x/week. PR: 102.06kg x 8. Est. 1RM: 139.5kg (from 92.99kg x 15). Trending down (-31.7%). Favors high reps (11+). Last trained 8 days ago."
+    },
+    "reverse_curl": {
+      "total_sets": 84,
+      "total_reps": 1168,
+      "total_volume_kg": 20594.6,
+      "pr_weight": {
+        "kg": 30.0,
+        "reps": 10,
+        "date": "2023-12-24",
+        "display": "30.0kg x 10"
+      },
+      "pr_volume": {
+        "kg": 22.5,
+        "reps": 20,
+        "volume": 450.0,
+        "date": "2024-01-11",
+        "display": "22.5kg x 20 = 450.0kg"
+      },
+      "estimated_1rm": {
+        "value": 40.0,
+        "from_set": "30.0kg x 10",
+        "date": "2023-12-24"
+      },
+      "top_sets": [
+        {
+          "weight_kg": 30.0,
+          "reps": 10,
+          "volume": 300.0,
+          "e1rm": 40.0,
+          "date": "2023-12-24",
+          "display": "30.0kg x 10"
+        },
+        {
+          "weight_kg": 25.0,
+          "reps": 15,
+          "volume": 375.0,
+          "e1rm": 37.5,
+          "date": "2023-12-24",
+          "display": "25.0kg x 15"
+        },
+        {
+          "weight_kg": 22.5,
+          "reps": 15,
+          "volume": 337.5,
+          "e1rm": 33.8,
+          "date": "2024-01-24",
+          "display": "22.5kg x 15"
+        },
+        {
+          "weight_kg": 22.5,
+          "reps": 18,
+          "volume": 405.0,
+          "e1rm": 36.0,
+          "date": "2024-01-24",
+          "display": "22.5kg x 18"
+        },
+        {
+          "weight_kg": 22.5,
+          "reps": 15,
+          "volume": 337.5,
+          "e1rm": 33.8,
+          "date": "2024-01-11",
+          "display": "22.5kg x 15"
+        }
+      ],
+      "trend": {
+        "direction": "increasing",
+        "avg_weight_recent": 20.0,
+        "avg_weight_previous": 18.1,
+        "change_percent": 10.0
+      },
+      "frequency_per_week": 0.3,
+      "total_sessions": 32,
+      "days_since_last": 8,
+      "rep_distribution": {
+        "heavy_1_5": 1.2,
+        "moderate_6_10": 26.2,
+        "light_11_plus": 72.6
+      },
+      "recent_sessions": [
+        {
+          "date": "2026-01-21",
+          "sets": [
+            "20.41kg x 10",
+            "20.41kg x 10"
+          ],
+          "sets_display": "20.41kg x 10 \u2192 20.41kg x 10",
+          "top_set": "20.41kg x 10",
+          "total_sets": 2,
+          "session_volume": 408.2
+        },
+        {
+          "date": "2026-01-08",
+          "sets": [
+            "20.41kg x 10",
+            "20.41kg x 15",
+            "18.14kg x 15"
+          ],
+          "sets_display": "20.41kg x 10 \u2192 20.41kg x 15 \u2192 18.14kg x 15",
+          "top_set": "20.41kg x 10",
+          "total_sets": 3,
+          "session_volume": 782.4
+        },
+        {
+          "date": "2025-12-13",
+          "sets": [
+            "13.61kg x 10",
+            "20.41kg x 10",
+            "20.41kg x 15",
+            "18.14kg x 15"
+          ],
+          "sets_display": "13.61kg x 10 \u2192 20.41kg x 10 \u2192 20.41kg x 15 \u2192 18.14kg x 15",
+          "top_set": "20.41kg x 10",
+          "total_sets": 4,
+          "session_volume": 918.4
+        }
+      ],
+      "summary": "Trained 0.3x/week. PR: 30.0kg x 10. Est. 1RM: 40.0kg (from 30.0kg x 10). Trending up (+10.0%). Favors high reps (11+). Last trained 8 days ago."
+    },
+    "squat": {
+      "total_sets": 266,
+      "total_reps": 1516,
+      "total_volume_kg": 80751.7,
+      "pr_weight": {
+        "kg": 120.2,
+        "reps": 1,
+        "date": "2025-04-18",
+        "display": "120.2kg x 1"
+      },
+      "pr_volume": {
+        "kg": 61.24,
+        "reps": 15,
+        "volume": 918.6,
+        "date": "2024-11-19",
+        "display": "61.24kg x 15 = 918.6kg"
+      },
+      "estimated_1rm": {
+        "value": 120.2,
+        "from_set": "120.2kg x 1",
+        "date": "2025-04-18"
+      },
+      "top_sets": [
+        {
+          "weight_kg": 120.2,
+          "reps": 1,
+          "volume": 120.2,
+          "e1rm": 120.2,
+          "date": "2025-04-18",
+          "display": "120.2kg x 1"
+        },
+        {
+          "weight_kg": 115.67,
+          "reps": 1,
+          "volume": 115.67,
+          "e1rm": 115.7,
+          "date": "2025-04-18",
+          "display": "115.67kg x 1"
+        },
+        {
+          "weight_kg": 115.0,
+          "reps": 1,
+          "volume": 115.0,
+          "e1rm": 115.0,
+          "date": "2024-05-14",
+          "display": "115.0kg x 1"
+        },
+        {
+          "weight_kg": 111.13,
+          "reps": 2,
+          "volume": 222.26,
+          "e1rm": 118.5,
+          "date": "2025-04-18",
+          "display": "111.13kg x 2"
+        },
+        {
+          "weight_kg": 110.0,
+          "reps": 1,
+          "volume": 110.0,
+          "e1rm": 110.0,
+          "date": "2024-05-31",
+          "display": "110.0kg x 1"
+        }
+      ],
+      "trend": {
+        "direction": "insufficient_data",
+        "change_percent": 0
+      },
+      "frequency_per_week": 0.5,
+      "total_sessions": 59,
+      "days_since_last": 15,
+      "rep_distribution": {
+        "heavy_1_5": 53.8,
+        "moderate_6_10": 40.6,
+        "light_11_plus": 5.6
+      },
+      "recent_sessions": [
+        {
+          "date": "2026-01-14",
+          "sets": [
+            "20.41kg x 20",
+            "61.24kg x 5",
+            "70.31kg x 2",
+            "79.38kg x 2",
+            "88.45kg x 1",
+            "102.06kg x 1",
+            "102.06kg x 1",
+            "106.59kg x 1"
+          ],
+          "sets_display": "20.41kg x 20 \u2192 61.24kg x 5 \u2192 70.31kg x 2 \u2192 79.38kg x 2 \u2192 88.45kg x 1 \u2192 102.06kg x 1 \u2192 102.06kg x 1 \u2192 106.59kg x 1",
+          "top_set": "106.59kg x 1",
+          "total_sets": 8,
+          "session_volume": 1412.9
+        },
+        {
+          "date": "2026-01-07",
+          "sets": [
+            "34.02kg x 10",
+            "52.16kg x 10",
+            "65.77kg x 6",
+            "83.91kg x 2",
+            "92.99kg x 1",
+            "102.06kg x 1"
+          ],
+          "sets_display": "34.02kg x 10 \u2192 52.16kg x 10 \u2192 65.77kg x 6 \u2192 83.91kg x 2 \u2192 92.99kg x 1 \u2192 102.06kg x 1",
+          "top_set": "102.06kg x 1",
+          "total_sets": 6,
+          "session_volume": 1619.3
+        },
+        {
+          "date": "2025-11-24",
+          "sets": [
+            "20.41kg x 15",
+            "43.09kg x 8",
+            "61.24kg x 8",
+            "83.91kg x 6",
+            "74.84kg x 8"
+          ],
+          "sets_display": "20.41kg x 15 \u2192 43.09kg x 8 \u2192 61.24kg x 8 \u2192 83.91kg x 6 \u2192 74.84kg x 8",
+          "top_set": "83.91kg x 6",
+          "total_sets": 5,
+          "session_volume": 2243.0
+        }
+      ],
+      "summary": "Trained 0.5x/week. PR: 120.2kg x 1. Favors heavy singles/doubles. Not trained in 15 days."
+    },
+    "lat_pulldown": {
+      "total_sets": 285,
+      "total_reps": 2593,
+      "total_volume_kg": 101793.2,
+      "pr_weight": {
+        "kg": 63.5,
+        "reps": 3,
+        "date": "2025-03-14",
+        "display": "63.5kg x 3"
+      },
+      "pr_volume": {
+        "kg": 45.36,
+        "reps": 15,
+        "volume": 680.4,
+        "date": "2025-11-17",
+        "display": "45.36kg x 15 = 680.4kg"
+      },
+      "estimated_1rm": {
+        "value": 76.0,
+        "from_set": "60.0kg x 8",
+        "date": "2024-03-25"
+      },
+      "top_sets": [
+        {
+          "weight_kg": 63.5,
+          "reps": 3,
+          "volume": 190.5,
+          "e1rm": 69.9,
+          "date": "2025-03-14",
+          "display": "63.5kg x 3"
+        },
+        {
+          "weight_kg": 63.5,
+          "reps": 3,
+          "volume": 190.5,
+          "e1rm": 69.9,
+          "date": "2025-03-10",
+          "display": "63.5kg x 3"
+        },
+        {
+          "weight_kg": 63.5,
+          "reps": 4,
+          "volume": 254.0,
+          "e1rm": 72.0,
+          "date": "2024-12-04",
+          "display": "63.5kg x 4"
+        },
+        {
+          "weight_kg": 61.24,
+          "reps": 7,
+          "volume": 428.68,
+          "e1rm": 75.5,
+          "date": "2025-02-06",
+          "display": "61.24kg x 7"
+        },
+        {
+          "weight_kg": 60.0,
+          "reps": 6,
+          "volume": 360.0,
+          "e1rm": 72.0,
+          "date": "2024-07-31",
+          "display": "60.0kg x 6"
+        }
+      ],
+      "trend": {
+        "direction": "decreasing",
+        "avg_weight_recent": 38.8,
+        "avg_weight_previous": 46.0,
+        "change_percent": -15.6
+      },
+      "frequency_per_week": 0.7,
+      "total_sessions": 72,
+      "days_since_last": 15,
+      "rep_distribution": {
+        "heavy_1_5": 17.5,
+        "moderate_6_10": 52.3,
+        "light_11_plus": 30.2
+      },
+      "recent_sessions": [
+        {
+          "date": "2026-01-14",
+          "sets": [
+            "35.38kg x 12",
+            "31.75kg x 15"
+          ],
+          "sets_display": "35.38kg x 12 \u2192 31.75kg x 15",
+          "top_set": "35.38kg x 12",
+          "total_sets": 2,
+          "session_volume": 900.8
+        },
+        {
+          "date": "2026-01-06",
+          "sets": [
+            "31.75kg x 15",
+            "50.8kg x 7",
+            "44.45kg x 11"
+          ],
+          "sets_display": "31.75kg x 15 \u2192 50.8kg x 7 \u2192 44.45kg x 11",
+          "top_set": "50.8kg x 7",
+          "total_sets": 3,
+          "session_volume": 1320.8
+        },
+        {
+          "date": "2025-12-09",
+          "sets": [
+            "45.36kg x 8",
+            "45.36kg x 10"
+          ],
+          "sets_display": "45.36kg x 8 \u2192 45.36kg x 10",
+          "top_set": "45.36kg x 8",
+          "total_sets": 2,
+          "session_volume": 816.5
+        }
+      ],
+      "summary": "Trained 0.7x/week. PR: 63.5kg x 3. Est. 1RM: 76.0kg (from 60.0kg x 8). Trending down (-15.6%). Favors moderate reps (6-10). Not trained in 15 days."
+    },
+    "triceps_extension": {
+      "total_sets": 27,
+      "total_reps": 313,
+      "total_volume_kg": 5977.8,
+      "pr_weight": {
+        "kg": 27.22,
+        "reps": 6,
+        "date": "2025-07-17",
+        "display": "27.22kg x 6"
+      },
+      "pr_volume": {
+        "kg": 18.14,
+        "reps": 17,
+        "volume": 308.38,
+        "date": "2025-08-14",
+        "display": "18.14kg x 17 = 308.38kg"
+      },
+      "estimated_1rm": {
+        "value": 32.7,
+        "from_set": "27.22kg x 6",
+        "date": "2025-07-17"
+      },
+      "top_sets": [
+        {
+          "weight_kg": 27.22,
+          "reps": 6,
+          "volume": 163.32,
+          "e1rm": 32.7,
+          "date": "2025-07-17",
+          "display": "27.22kg x 6"
+        },
+        {
+          "weight_kg": 22.68,
+          "reps": 11,
+          "volume": 249.48,
+          "e1rm": 31.0,
+          "date": "2025-12-23",
+          "display": "22.68kg x 11"
+        },
+        {
+          "weight_kg": 22.68,
+          "reps": 8,
+          "volume": 181.44,
+          "e1rm": 28.7,
+          "date": "2025-07-17",
+          "display": "22.68kg x 8"
+        },
+        {
+          "weight_kg": 22.68,
+          "reps": 6,
+          "volume": 136.07999999999998,
+          "e1rm": 27.2,
+          "date": "2025-06-24",
+          "display": "22.68kg x 6"
+        },
+        {
+          "weight_kg": 22.68,
+          "reps": 8,
+          "volume": 181.44,
+          "e1rm": 28.7,
+          "date": "2025-06-24",
+          "display": "22.68kg x 8"
+        }
+      ],
+      "trend": {
+        "direction": "decreasing",
+        "avg_weight_recent": 17.6,
+        "avg_weight_previous": 20.4,
+        "change_percent": -13.9
+      },
+      "frequency_per_week": 0.1,
+      "total_sessions": 12,
+      "days_since_last": 15,
+      "rep_distribution": {
+        "heavy_1_5": 0.0,
+        "moderate_6_10": 40.7,
+        "light_11_plus": 59.3
+      },
+      "recent_sessions": [
+        {
+          "date": "2026-01-14",
+          "sets": [
+            "15.88kg x 15",
+            "15.88kg x 15"
+          ],
+          "sets_display": "15.88kg x 15 \u2192 15.88kg x 15",
+          "top_set": "15.88kg x 15",
+          "total_sets": 2,
+          "session_volume": 476.4
+        },
+        {
+          "date": "2026-01-08",
+          "sets": [
+            "18.14kg x 10",
+            "20.41kg x 8"
+          ],
+          "sets_display": "18.14kg x 10 \u2192 20.41kg x 8",
+          "top_set": "20.41kg x 8",
+          "total_sets": 2,
+          "session_volume": 344.7
+        },
+        {
+          "date": "2025-12-23",
+          "sets": [
+            "18.14kg x 12",
+            "22.68kg x 11"
+          ],
+          "sets_display": "18.14kg x 12 \u2192 22.68kg x 11",
+          "top_set": "22.68kg x 11",
+          "total_sets": 2,
+          "session_volume": 467.2
+        }
+      ],
+      "summary": "Trained 0.1x/week. PR: 27.22kg x 6. Est. 1RM: 32.7kg (from 27.22kg x 6). Trending down (-13.9%). Favors high reps (11+). Not trained in 15 days."
+    },
+    "chest_fly_machine": {
+      "total_sets": 209,
+      "total_reps": 1680,
+      "total_volume_kg": 91004.2,
+      "pr_weight": {
+        "kg": 100.0,
+        "reps": 5,
+        "date": "2025-06-17",
+        "display": "100.0kg x 5"
+      },
+      "pr_volume": {
+        "kg": 54.43,
+        "reps": 19,
+        "volume": 1034.17,
+        "date": "2024-12-04",
+        "display": "54.43kg x 19 = 1034.17kg"
+      },
+      "estimated_1rm": {
+        "value": 116.7,
+        "from_set": "100.0kg x 5",
+        "date": "2025-06-17"
+      },
+      "top_sets": [
+        {
+          "weight_kg": 100.0,
+          "reps": 5,
+          "volume": 500.0,
+          "e1rm": 116.7,
+          "date": "2025-06-17",
+          "display": "100.0kg x 5"
+        },
+        {
+          "weight_kg": 90.72,
+          "reps": 3,
+          "volume": 272.15999999999997,
+          "e1rm": 99.8,
+          "date": "2025-05-01",
+          "display": "90.72kg x 3"
+        },
+        {
+          "weight_kg": 90.72,
+          "reps": 4,
+          "volume": 362.88,
+          "e1rm": 102.8,
+          "date": "2024-11-12",
+          "display": "90.72kg x 4"
+        },
+        {
+          "weight_kg": 90.72,
+          "reps": 1,
+          "volume": 90.72,
+          "e1rm": 90.7,
+          "date": "2024-11-12",
+          "display": "90.72kg x 1"
+        },
+        {
+          "weight_kg": 80.0,
+          "reps": 7,
+          "volume": 560.0,
+          "e1rm": 98.7,
+          "date": "2025-08-11",
+          "display": "80.0kg x 7"
+        }
+      ],
+      "trend": {
+        "direction": "decreasing",
+        "avg_weight_recent": 45.4,
+        "avg_weight_previous": 50.5,
+        "change_percent": -10.3
+      },
+      "frequency_per_week": 0.5,
+      "total_sessions": 59,
+      "days_since_last": 15,
+      "rep_distribution": {
+        "heavy_1_5": 31.1,
+        "moderate_6_10": 45.5,
+        "light_11_plus": 23.4
+      },
+      "recent_sessions": [
+        {
+          "date": "2026-01-14",
+          "sets": [
+            "45.36kg x 15",
+            "45.36kg x 15"
+          ],
+          "sets_display": "45.36kg x 15 \u2192 45.36kg x 15",
+          "top_set": "45.36kg x 15",
+          "total_sets": 2,
+          "session_volume": 1360.8
+        },
+        {
+          "date": "2025-12-12",
+          "sets": [
+            "22.68kg x 10",
+            "54.43kg x 9",
+            "54.43kg x 9",
+            "54.43kg x 9"
+          ],
+          "sets_display": "22.68kg x 10 \u2192 54.43kg x 9 \u2192 54.43kg x 9 \u2192 54.43kg x 9",
+          "top_set": "54.43kg x 9",
+          "total_sets": 4,
+          "session_volume": 1696.4
+        },
+        {
+          "date": "2025-12-07",
+          "sets": [
+            "58.97kg x 6",
+            "54.43kg x 9",
+            "54.43kg x 9"
+          ],
+          "sets_display": "58.97kg x 6 \u2192 54.43kg x 9 \u2192 54.43kg x 9",
+          "top_set": "58.97kg x 6",
+          "total_sets": 3,
+          "session_volume": 1333.6
+        }
+      ],
+      "summary": "Trained 0.5x/week. PR: 100.0kg x 5. Est. 1RM: 116.7kg (from 100.0kg x 5). Trending down (-10.3%). Not trained in 15 days."
+    },
+    "deadlift": {
+      "total_sets": 227,
+      "total_reps": 1021,
+      "total_volume_kg": 65372.2,
+      "pr_weight": {
+        "kg": 172.37,
+        "reps": 1,
+        "date": "2025-06-21",
+        "display": "172.37kg x 1"
+      },
+      "pr_volume": {
+        "kg": 102.06,
+        "reps": 10,
+        "volume": 1020.6,
+        "date": "2025-03-03",
+        "display": "102.06kg x 10 = 1020.6kg"
+      },
+      "estimated_1rm": {
+        "value": 172.4,
+        "from_set": "172.37kg x 1",
+        "date": "2025-06-21"
+      },
+      "top_sets": [
+        {
+          "weight_kg": 172.37,
+          "reps": 1,
+          "volume": 172.37,
+          "e1rm": 172.4,
+          "date": "2025-06-21",
+          "display": "172.37kg x 1"
+        },
+        {
+          "weight_kg": 170.1,
+          "reps": 1,
+          "volume": 170.1,
+          "e1rm": 170.1,
+          "date": "2025-03-29",
+          "display": "170.1kg x 1"
+        },
+        {
+          "weight_kg": 165.56,
+          "reps": 1,
+          "volume": 165.56,
+          "e1rm": 165.6,
+          "date": "2026-01-11",
+          "display": "165.56kg x 1"
+        },
+        {
+          "weight_kg": 165.56,
+          "reps": 1,
+          "volume": 165.56,
+          "e1rm": 165.6,
+          "date": "2026-01-11",
+          "display": "165.56kg x 1"
+        },
+        {
+          "weight_kg": 165.56,
+          "reps": 1,
+          "volume": 165.56,
+          "e1rm": 165.6,
+          "date": "2025-12-15",
+          "display": "165.56kg x 1"
+        }
+      ],
+      "trend": {
+        "direction": "increasing",
+        "avg_weight_recent": 103.9,
+        "avg_weight_previous": 98.0,
+        "change_percent": 6.1
+      },
+      "frequency_per_week": 0.4,
+      "total_sessions": 46,
+      "days_since_last": 18,
+      "rep_distribution": {
+        "heavy_1_5": 71.4,
+        "moderate_6_10": 23.8,
+        "light_11_plus": 4.8
+      },
+      "recent_sessions": [
+        {
+          "date": "2026-01-11",
+          "sets": [
+            "29.48kg x 10",
+            "61.24kg x 5",
+            "102.06kg x 2",
+            "142.88kg x 1",
+            "151.95kg x 1",
+            "165.56kg x 1",
+            "165.56kg x 1"
+          ],
+          "sets_display": "29.48kg x 10 \u2192 61.24kg x 5 \u2192 102.06kg x 2 \u2192 142.88kg x 1 \u2192 151.95kg x 1 \u2192 165.56kg x 1 \u2192 165.56kg x 1",
+          "top_set": "165.56kg x 1",
+          "total_sets": 7,
+          "session_volume": 1431.1
+        },
+        {
+          "date": "2026-01-07",
+          "sets": [
+            "20.41kg x 20",
+            "52.16kg x 10",
+            "83.91kg x 4",
+            "115.67kg x 1",
+            "156.49kg x 1"
+          ],
+          "sets_display": "20.41kg x 20 \u2192 52.16kg x 10 \u2192 83.91kg x 4 \u2192 115.67kg x 1 \u2192 156.49kg x 1",
+          "top_set": "156.49kg x 1",
+          "total_sets": 5,
+          "session_volume": 1537.6
+        },
+        {
+          "date": "2025-12-24",
+          "sets": [
+            "61.24kg x 1",
+            "83.91kg x 1",
+            "83.91kg x 1",
+            "106.59kg x 1"
+          ],
+          "sets_display": "61.24kg x 1 \u2192 83.91kg x 1 \u2192 83.91kg x 1 \u2192 106.59kg x 1",
+          "top_set": "106.59kg x 1",
+          "total_sets": 4,
+          "session_volume": 335.6
+        }
+      ],
+      "summary": "Trained 0.4x/week. PR: 172.37kg x 1. Est. 1RM: 172.4kg (from 172.37kg x 1). Trending up (+6.1%). Favors heavy singles/doubles. Not trained in 18 days."
+    },
+    "romanian_deadlift": {
+      "total_sets": 105,
+      "total_reps": 868,
+      "total_volume_kg": 44547.5,
+      "pr_weight": {
+        "kg": 102.06,
+        "reps": 10,
+        "date": "2025-12-04",
+        "display": "102.06kg x 10"
+      },
+      "pr_volume": {
+        "kg": 74.84,
+        "reps": 15,
+        "volume": 1122.6000000000001,
+        "date": "2025-11-02",
+        "display": "74.84kg x 15 = 1122.6000000000001kg"
+      },
+      "estimated_1rm": {
+        "value": 136.1,
+        "from_set": "102.06kg x 10",
+        "date": "2025-12-04"
+      },
+      "top_sets": [
+        {
+          "weight_kg": 102.06,
+          "reps": 10,
+          "volume": 1020.6,
+          "e1rm": 136.1,
+          "date": "2025-12-04",
+          "display": "102.06kg x 10"
+        },
+        {
+          "weight_kg": 102.06,
+          "reps": 8,
+          "volume": 816.48,
+          "e1rm": 129.3,
+          "date": "2025-11-24",
+          "display": "102.06kg x 8"
+        },
+        {
+          "weight_kg": 92.99,
+          "reps": 4,
+          "volume": 371.96,
+          "e1rm": 105.4,
+          "date": "2025-09-05",
+          "display": "92.99kg x 4"
+        },
+        {
+          "weight_kg": 88.45,
+          "reps": 5,
+          "volume": 442.25,
+          "e1rm": 103.2,
+          "date": "2025-04-04",
+          "display": "88.45kg x 5"
+        },
+        {
+          "weight_kg": 83.91,
+          "reps": 5,
+          "volume": 419.54999999999995,
+          "e1rm": 97.9,
+          "date": "2025-11-08",
+          "display": "83.91kg x 5"
+        }
+      ],
+      "trend": {
+        "direction": "insufficient_data",
+        "change_percent": 0
+      },
+      "frequency_per_week": 0.3,
+      "total_sessions": 32,
+      "days_since_last": 36,
+      "rep_distribution": {
+        "heavy_1_5": 20.0,
+        "moderate_6_10": 69.5,
+        "light_11_plus": 10.5
+      },
+      "recent_sessions": [
+        {
+          "date": "2025-12-24",
+          "sets": [
+            "61.24kg x 4",
+            "61.24kg x 4"
+          ],
+          "sets_display": "61.24kg x 4 \u2192 61.24kg x 4",
+          "top_set": "61.24kg x 4",
+          "total_sets": 2,
+          "session_volume": 489.9
+        },
+        {
+          "date": "2025-12-04",
+          "sets": [
+            "18.14kg x 15",
+            "61.24kg x 3",
+            "102.06kg x 10"
+          ],
+          "sets_display": "18.14kg x 15 \u2192 61.24kg x 3 \u2192 102.06kg x 10",
+          "top_set": "102.06kg x 10",
+          "total_sets": 3,
+          "session_volume": 1476.4
+        },
+        {
+          "date": "2025-11-24",
+          "sets": [
+            "61.24kg x 10",
+            "102.06kg x 8",
+            "61.24kg x 15"
+          ],
+          "sets_display": "61.24kg x 10 \u2192 102.06kg x 8 \u2192 61.24kg x 15",
+          "top_set": "102.06kg x 8",
+          "total_sets": 3,
+          "session_volume": 2347.5
+        }
+      ],
+      "summary": "Trained 0.3x/week. PR: 102.06kg x 10. Est. 1RM: 136.1kg (from 102.06kg x 10). Favors moderate reps (6-10). Not trained in 36 days."
+    }
+  },
+  "muscles": {
+    "chest": {
+      "exercises": [
+        "bench_press",
+        "incline_fly",
+        "chest_fly_machine"
+      ],
+      "total_sets": 627,
+      "percentage_of_training": 27.0,
+      "weekly_sets_avg": 5.8,
+      "dominant_exercise": "bench_press",
+      "dominant_exercise_percent": 47.4,
+      "recommended_weekly_sets": "10-20",
+      "status": "undertrained",
+      "summary": "Chest: 27.0% of training (5.8 sets/week). bench_press is dominant (47.4%). Status: undertrained."
+    },
+    "biceps": {
+      "exercises": [
+        "bicep_curl",
+        "reverse_curl"
+      ],
+      "total_sets": 98,
+      "percentage_of_training": 4.2,
+      "weekly_sets_avg": 0.9,
+      "dominant_exercise": "reverse_curl",
+      "dominant_exercise_percent": 85.7,
+      "recommended_weekly_sets": "6-12",
+      "status": "undertrained",
+      "summary": "Biceps: 4.2% of training (0.9 sets/week). reverse_curl is dominant (85.7%). Status: undertrained."
+    },
+    "triceps": {
+      "exercises": [
+        "triceps_pushdown",
+        "triceps_extension"
+      ],
+      "total_sets": 159,
+      "percentage_of_training": 6.8,
+      "weekly_sets_avg": 1.5,
+      "dominant_exercise": "triceps_pushdown",
+      "dominant_exercise_percent": 83.0,
+      "recommended_weekly_sets": "6-12",
+      "status": "undertrained",
+      "summary": "Triceps: 6.8% of training (1.5 sets/week). triceps_pushdown is dominant (83.0%). Status: undertrained."
+    },
+    "lats": {
+      "exercises": [
+        "lat_pulldown_close_grip",
+        "lat_pulldown"
+      ],
+      "total_sets": 328,
+      "percentage_of_training": 14.1,
+      "weekly_sets_avg": 3.0,
+      "dominant_exercise": "lat_pulldown",
+      "dominant_exercise_percent": 86.9,
+      "recommended_weekly_sets": "10-20",
+      "status": "undertrained",
+      "summary": "Lats: 14.1% of training (3.0 sets/week). lat_pulldown is dominant (86.9%). Status: undertrained."
+    },
+    "shoulders": {
+      "exercises": [
+        "shoulder_press"
+      ],
+      "total_sets": 350,
+      "percentage_of_training": 15.0,
+      "weekly_sets_avg": 3.2,
+      "dominant_exercise": "shoulder_press",
+      "dominant_exercise_percent": 100.0,
+      "recommended_weekly_sets": "8-16",
+      "status": "undertrained",
+      "summary": "Shoulders: 15.0% of training (3.2 sets/week). shoulder_press is dominant (100.0%). Status: undertrained."
+    },
+    "traps": {
+      "exercises": [
+        "barbell_shrug"
+      ],
+      "total_sets": 166,
+      "percentage_of_training": 7.1,
+      "weekly_sets_avg": 1.5,
+      "dominant_exercise": "barbell_shrug",
+      "dominant_exercise_percent": 100.0,
+      "recommended_weekly_sets": "6-12",
+      "status": "undertrained",
+      "summary": "Traps: 7.1% of training (1.5 sets/week). barbell_shrug is dominant (100.0%). Status: undertrained."
+    },
+    "quads": {
+      "exercises": [
+        "squat"
+      ],
+      "total_sets": 266,
+      "percentage_of_training": 11.4,
+      "weekly_sets_avg": 2.4,
+      "dominant_exercise": "squat",
+      "dominant_exercise_percent": 100.0,
+      "recommended_weekly_sets": "10-20",
+      "status": "undertrained",
+      "summary": "Quads: 11.4% of training (2.4 sets/week). squat is dominant (100.0%). Status: undertrained."
+    },
+    "lower_back": {
+      "exercises": [
+        "deadlift"
+      ],
+      "total_sets": 227,
+      "percentage_of_training": 9.8,
+      "weekly_sets_avg": 2.1,
+      "dominant_exercise": "deadlift",
+      "dominant_exercise_percent": 100.0,
+      "recommended_weekly_sets": "6-12",
+      "status": "undertrained",
+      "summary": "Lower_Back: 9.8% of training (2.1 sets/week). deadlift is dominant (100.0%). Status: undertrained."
+    },
+    "hamstrings": {
+      "exercises": [
+        "romanian_deadlift"
+      ],
+      "total_sets": 105,
+      "percentage_of_training": 4.5,
+      "weekly_sets_avg": 1.0,
+      "dominant_exercise": "romanian_deadlift",
+      "dominant_exercise_percent": 100.0,
+      "recommended_weekly_sets": "8-16",
+      "status": "undertrained",
+      "summary": "Hamstrings: 4.5% of training (1.0 sets/week). romanian_deadlift is dominant (100.0%). Status: undertrained."
+    }
+  },
+  "global": {
+    "avg_sessions_per_week": 3.1,
+    "total_sessions": 341,
+    "weeks_tracked": 109.0,
+    "push_pull_ratio": 2.67,
+    "upper_lower_ratio": 4.21,
+    "push_sets": 1136,
+    "pull_sets": 426,
+    "leg_sets": 371,
+    "undertrained_muscles": [
+      "biceps",
+      "chest",
+      "hamstrings",
+      "lats",
+      "lower_back",
+      "quads",
+      "shoulders",
+      "traps",
+      "triceps"
+    ],
+    "summary": "Training 3.1x/week for 109 weeks. Push/Pull: push dominant (2.67:1). Upper/Lower: upper focused (4.21:1). Undertrained: biceps, chest, hamstrings, lats, lower_back, quads, shoulders, traps, triceps."
+  }
+}
