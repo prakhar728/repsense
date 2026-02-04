@@ -112,16 +112,30 @@ export default function RoutinePage() {
                       key={exIdx}
                       className="flex items-center justify-between py-2 border-b border-neutral-700/50 last:border-0"
                     >
-                      <span className="text-neutral-300">
-                        {(ex.name as string) || (ex.exercise as string) || "Exercise"}
-                      </span>
-                      <span className="text-sm text-neutral-400 font-mono">
-                        {ex.sets && ex.reps
-                          ? `${ex.sets} x ${ex.reps}`
-                          : ex.sets
-                          ? `${ex.sets} sets`
-                          : ""}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-neutral-300">
+                          {(ex.name as string) || (ex.exercise as string) || "Exercise"}
+                        </span>
+                        {ex.notes && (
+                          <span className="text-xs text-neutral-500 italic">
+                            ({ex.notes as string})
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-3">
+                        {ex.suggested_weight_kg != null && (
+                          <span className="text-sm text-emerald-400 font-mono">
+                            {ex.suggested_weight_kg as number}kg
+                          </span>
+                        )}
+                        <span className="text-sm text-neutral-400 font-mono">
+                          {ex.sets && ex.reps
+                            ? `${ex.sets} x ${ex.reps}`
+                            : ex.sets
+                            ? `${ex.sets} sets`
+                            : ""}
+                        </span>
+                      </div>
                     </div>
                   ))}
                 </div>

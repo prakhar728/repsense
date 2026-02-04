@@ -92,3 +92,44 @@ export async function getRoutine(
   const data = await res.json();
   return data.routine;
 }
+
+export interface GeneratedRoutine {
+  routine_id: string;
+  routine: {
+    title: string;
+    goal: string;
+    level: string;
+    plan_type: string;
+    duration: { weeks: number | null; days_per_week: number | null };
+    sessions: {
+      day: string;
+      focus: string;
+      exercises: {
+        name: string;
+        primary_muscle: string;
+        sets: number;
+        reps: string;
+        suggested_weight_kg: number | null;
+        rest_seconds: number;
+        notes: string;
+      }[];
+    }[];
+  };
+}
+
+export async function generateRoutinesFromGoal(
+  userId: string,
+  goal: string
+): Promise<GeneratedRoutine> {
+  const res = await fetch(`${API_URL}/profile/generate-routines`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ user_id: userId, goal }),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Routine generation failed: ${res.statusText}`);
+  }
+
+  return res.json();
+}

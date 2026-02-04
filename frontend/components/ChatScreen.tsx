@@ -6,9 +6,9 @@ import { ChatMessage, getMockReply, suggestedPrompts } from "../lib/mockChat";
 import { Spinner } from "./ui/Spinner";
 
 function renderMessageContent(content: string): ReactNode {
-  const parts = content.split(/(\[routine:\w+\])/g);
+  const parts = content.split(/(\[routine:[\w-]+\])/g);
   return parts.map((part, i) => {
-    const match = part.match(/^\[routine:(\w+)\]$/);
+    const match = part.match(/^\[routine:([\w-]+)\]$/);
     if (match) {
       return (
         <Link

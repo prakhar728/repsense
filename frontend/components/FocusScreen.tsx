@@ -5,33 +5,38 @@ import { Button } from "./ui/Button";
 import { Card, CardContent, CardFooter } from "./ui/Card";
 import { Modal } from "./ui/Modal";
 import { Spinner } from "./ui/Spinner";
-import {
-  generateRoutines,
-  focusPresets,
-  Routine,
-  ParsedCSVData,
-} from "../lib/mockData";
+import { generateRoutinesFromGoal, GeneratedRoutine } from "../lib/api";
+
+const focusPresets = [
+  "Fat loss",
+  "Strength",
+  "Hypertrophy",
+  "Recovery",
+  "Consistency",
+];
+
+// Goal tag colors
+const goalColors: Record<string, string> = {
+  strength: "bg-blue-500/20 text-blue-400",
+  hypertrophy: "bg-purple-500/20 text-purple-400",
+  recovery: "bg-amber-500/20 text-amber-400",
+  fat_loss: "bg-rose-500/20 text-rose-400",
+  general_strength: "bg-blue-500/20 text-blue-400",
+  muscle_growth: "bg-purple-500/20 text-purple-400",
+};
 
 interface FocusScreenProps {
-  csvData: ParsedCSVData;
+  userEmail: string;
   onBack: () => void;
   onStartTraining: () => void;
 }
 
-// Goal tag colors
-const goalColors: Record<string, string> = {
-  Strength: "bg-blue-500/20 text-blue-400",
-  Hypertrophy: "bg-purple-500/20 text-purple-400",
-  Recovery: "bg-amber-500/20 text-amber-400",
-  "Fat Loss": "bg-rose-500/20 text-rose-400",
-};
-
-export function FocusScreen({ csvData, onBack, onStartTraining }: FocusScreenProps) {
+export function FocusScreen({ userEmail, onBack, onStartTraining }: FocusScreenProps) {
   const [focus, setFocus] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
-  const [routines, setRoutines] = useState<Routine[]>([]);
-  const [selectedRoutine, setSelectedRoutine] = useState<Routine | null>(null);
-  const [detailsRoutine, setDetailsRoutine] = useState<Routine | null>(null);
+  const [result, setResult] = useState<GeneratedRoutine | null>(null);
+  const [showDetails, setShowDetails] = useState(false);
+  const [error, setError] = useState("");
 
   const handlePresetClick = (preset: string) => {
     setFocus((prev) => {
@@ -47,20 +52,32 @@ export function FocusScreen({ csvData, onBack, onStartTraining }: FocusScreenPro
     if (!focus.trim()) return;
 
     setIsGenerating(true);
-    setRoutines([]);
-    setSelectedRoutine(null);
+    setResult(null);
+    setError("");
 
     try {
-      const generated = await generateRoutines(focus);
-      setRoutines(generated);
+      const data = await generateRoutinesFromGoal(userEmail, focus);
+      setResult(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to generate routine");
     } finally {
       setIsGenerating(false);
     }
   };
 
-  const handleSelectRoutine = (routine: Routine) => {
-    setSelectedRoutine(routine);
-  };
+  const routine = result?.routine;
+  const frequency = routine?.duration?.days_per_week
+    ? `${routine.duration.days_per_week} days/week`
+    : routine?.sessions
+    ? `${routine.sessions.length} sessions`
+    : "";
+
+  const goalLabel = routine?.goal
+    ? routine.goal.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+    : "";
+
+  const goalColorClass =
+    goalColors[routine?.goal || ""] || "bg-emerald-500/20 text-emerald-400";
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
@@ -140,10 +157,17 @@ export function FocusScreen({ csvData, onBack, onStartTraining }: FocusScreenPro
             isLoading={isGenerating}
             className="w-full sm:w-auto"
           >
-            {isGenerating ? "Generating..." : "Generate routines"}
+            {isGenerating ? "Generating..." : "Generate routine"}
           </Button>
         </CardFooter>
       </Card>
+
+      {/* Error State */}
+      {error && (
+        <div className="p-4 mb-8 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm">
+          {error}
+        </div>
+      )}
 
       {/* Loading State */}
       {isGenerating && (
@@ -152,183 +176,44 @@ export function FocusScreen({ csvData, onBack, onStartTraining }: FocusScreenPro
             <Spinner size="md" />
             <div className="text-left">
               <p className="text-white font-medium">
-                Analyzing fatigue & consistency…
+                Analyzing your training data…
               </p>
               <p className="text-neutral-400 text-sm">
-                Generating personalized routines based on {csvData.workoutsDetected} workouts
+                Generating a personalized routine based on your profile
               </p>
             </div>
           </div>
         </div>
       )}
 
-      {/* Generated Routines */}
-      {routines.length > 0 && !isGenerating && (
+      {/* Generated Routine */}
+      {routine && !isGenerating && (
         <div className="animate-in slide-in-from-bottom-4 fade-in duration-500">
           <div className="flex items-center gap-2 mb-6">
             <div className="w-2 h-2 rounded-full bg-emerald-500" />
             <h2 className="text-lg font-semibold text-white">
-              Recommended Routines
+              Your Personalized Routine
             </h2>
-            <span className="text-neutral-500 text-sm">
-              ({routines.length} options)
-            </span>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2">
-            {routines.map((routine) => (
-              <Card
-                key={routine.id}
-                variant="elevated"
-                className={`transition-all duration-200 ${
-                  selectedRoutine?.id === routine.id
-                    ? "ring-2 ring-emerald-500 border-emerald-500"
-                    : "hover:border-neutral-700"
-                }`}
-              >
-                <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-lg font-bold text-white pr-2">
-                    {routine.name}
-                  </h3>
-                  <span
-                    className={`px-2.5 py-1 text-xs font-semibold rounded-lg shrink-0 ${
-                      goalColors[routine.goalTag] ||
-                      "bg-neutral-700 text-neutral-300"
-                    }`}
-                  >
-                    {routine.goalTag}
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2 text-neutral-400 text-sm mb-3">
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
-                  </svg>
-                  <span>{routine.frequency}</span>
-                </div>
-
-                <p className="text-neutral-400 text-sm mb-4 line-clamp-2">
-                  {routine.rationale}
-                </p>
-
-                <CardFooter className="!mt-4 !pt-4 border-t border-neutral-800">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setDetailsRoutine(routine)}
-                  >
-                    View details
-                  </Button>
-                  <Button
-                    variant={selectedRoutine?.id === routine.id ? "primary" : "secondary"}
-                    size="sm"
-                    onClick={() => handleSelectRoutine(routine)}
-                  >
-                    {selectedRoutine?.id === routine.id ? (
-                      <>
-                        <svg
-                          className="w-4 h-4 mr-1"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                        Selected
-                      </>
-                    ) : (
-                      "Select routine"
-                    )}
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
-
-          {/* Start Training CTA */}
-          {selectedRoutine && (
-            <div className="mt-8 p-6 bg-gradient-to-r from-emerald-500/10 to-emerald-600/10 border border-emerald-500/30 rounded-2xl animate-in slide-in-from-bottom-2 fade-in duration-300">
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div>
-                  <p className="text-white font-semibold">
-                    Ready to start {selectedRoutine.name}?
-                  </p>
-                  <p className="text-neutral-400 text-sm">
-                    {selectedRoutine.frequency} • {selectedRoutine.estimatedDuration}
-                  </p>
-                </div>
-                <Button variant="primary" size="lg" onClick={onStartTraining}>
-                  Start training
-                  <svg
-                    className="w-5 h-5 ml-1"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 7l5 5m0 0l-5 5m5-5H6"
-                    />
-                  </svg>
-                </Button>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Details Modal */}
-      <Modal
-        isOpen={!!detailsRoutine}
-        onClose={() => setDetailsRoutine(null)}
-        title={detailsRoutine?.name || ""}
-        size="xl"
-      >
-        {detailsRoutine && (
-          <div>
-            {/* Overview */}
-            <div className="flex flex-wrap gap-3 mb-6">
-              <span
-                className={`px-3 py-1.5 text-sm font-semibold rounded-lg ${
-                  goalColors[detailsRoutine.goalTag] ||
-                  "bg-neutral-700 text-neutral-300"
-                }`}
-              >
-                {detailsRoutine.goalTag}
-              </span>
-              <span className="px-3 py-1.5 text-sm font-medium rounded-lg bg-neutral-800 text-neutral-300">
-                {detailsRoutine.frequency}
-              </span>
-              <span className="px-3 py-1.5 text-sm font-medium rounded-lg bg-neutral-800 text-neutral-300">
-                {detailsRoutine.estimatedDuration}
-              </span>
+          <Card variant="elevated" className="ring-2 ring-emerald-500 border-emerald-500">
+            <div className="flex items-start justify-between mb-3">
+              <h3 className="text-lg font-bold text-white pr-2">
+                {routine.title}
+              </h3>
+              {goalLabel && (
+                <span
+                  className={`px-2.5 py-1 text-xs font-semibold rounded-lg shrink-0 ${goalColorClass}`}
+                >
+                  {goalLabel}
+                </span>
+              )}
             </div>
 
-            {/* Rationale */}
-            <p className="text-neutral-300 mb-6">{detailsRoutine.rationale}</p>
-
-            {/* Recovery Note */}
-            <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl mb-6">
-              <div className="flex items-start gap-3">
+            {frequency && (
+              <div className="flex items-center gap-2 text-neutral-400 text-sm mb-3">
                 <svg
-                  className="w-5 h-5 text-amber-500 shrink-0 mt-0.5"
+                  className="w-4 h-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -337,36 +222,96 @@ export function FocusScreen({ csvData, onBack, onStartTraining }: FocusScreenPro
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>
-                <div>
-                  <p className="text-amber-400 font-medium text-sm mb-1">
-                    Recovery Note
-                  </p>
-                  <p className="text-neutral-400 text-sm">
-                    {detailsRoutine.recoveryNote}
-                  </p>
-                </div>
+                <span>{frequency}</span>
               </div>
+            )}
+
+            {routine.level && (
+              <p className="text-neutral-400 text-sm mb-4">
+                Level: {routine.level.replace(/\b\w/g, (c) => c.toUpperCase())}
+              </p>
+            )}
+
+            <CardFooter className="!mt-4 !pt-4 border-t border-neutral-800">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowDetails(true)}
+              >
+                View details
+              </Button>
+              <Button variant="primary" size="sm" onClick={onStartTraining}>
+                Start training
+                <svg
+                  className="w-4 h-4 ml-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
+                </svg>
+              </Button>
+            </CardFooter>
+          </Card>
+        </div>
+      )}
+
+      {/* Details Modal */}
+      <Modal
+        isOpen={showDetails && !!routine}
+        onClose={() => setShowDetails(false)}
+        title={routine?.title || ""}
+        size="xl"
+      >
+        {routine && (
+          <div>
+            {/* Overview */}
+            <div className="flex flex-wrap gap-3 mb-6">
+              {goalLabel && (
+                <span
+                  className={`px-3 py-1.5 text-sm font-semibold rounded-lg ${goalColorClass}`}
+                >
+                  {goalLabel}
+                </span>
+              )}
+              {frequency && (
+                <span className="px-3 py-1.5 text-sm font-medium rounded-lg bg-neutral-800 text-neutral-300">
+                  {frequency}
+                </span>
+              )}
+              {routine.level && (
+                <span className="px-3 py-1.5 text-sm font-medium rounded-lg bg-neutral-800 text-neutral-300">
+                  {routine.level.replace(/\b\w/g, (c) => c.toUpperCase())}
+                </span>
+              )}
             </div>
 
             {/* Weekly Plan */}
-            <h3 className="text-lg font-bold text-white mb-4">Weekly Plan</h3>
+            <h3 className="text-lg font-bold text-white mb-4">
+              {routine.plan_type === "single_session" ? "Session Plan" : "Weekly Plan"}
+            </h3>
             <div className="space-y-4">
-              {detailsRoutine.weeklyPlan.map((day) => (
+              {routine.sessions.map((session) => (
                 <div
-                  key={day.day}
+                  key={session.day}
                   className="p-4 bg-neutral-800/50 border border-neutral-700 rounded-xl"
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-semibold text-white">{day.day}</h4>
+                    <h4 className="font-semibold text-white">{session.day}</h4>
                     <span className="text-sm text-emerald-400 font-medium">
-                      {day.focus}
+                      {session.focus}
                     </span>
                   </div>
                   <div className="space-y-2">
-                    {day.exercises.map((exercise, idx) => (
+                    {session.exercises.map((exercise, idx) => (
                       <div
                         key={idx}
                         className="flex items-center justify-between py-2 border-b border-neutral-700/50 last:border-0"
@@ -381,9 +326,16 @@ export function FocusScreen({ csvData, onBack, onStartTraining }: FocusScreenPro
                             </span>
                           )}
                         </div>
-                        <span className="text-sm text-neutral-400 font-mono">
-                          {exercise.sets} × {exercise.reps}
-                        </span>
+                        <div className="flex items-center gap-3">
+                          {exercise.suggested_weight_kg != null && (
+                            <span className="text-sm text-emerald-400 font-mono">
+                              {exercise.suggested_weight_kg}kg
+                            </span>
+                          )}
+                          <span className="text-sm text-neutral-400 font-mono">
+                            {exercise.sets} x {exercise.reps}
+                          </span>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -393,17 +345,17 @@ export function FocusScreen({ csvData, onBack, onStartTraining }: FocusScreenPro
 
             {/* Modal Footer */}
             <div className="mt-6 pt-6 border-t border-neutral-800 flex justify-end gap-3">
-              <Button variant="ghost" onClick={() => setDetailsRoutine(null)}>
+              <Button variant="ghost" onClick={() => setShowDetails(false)}>
                 Close
               </Button>
               <Button
                 variant="primary"
                 onClick={() => {
-                  handleSelectRoutine(detailsRoutine);
-                  setDetailsRoutine(null);
+                  setShowDetails(false);
+                  onStartTraining();
                 }}
               >
-                Select this routine
+                Start training
               </Button>
             </div>
           </div>

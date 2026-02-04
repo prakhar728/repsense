@@ -5,11 +5,10 @@ import { Button } from "./ui/Button";
 import { Card, CardContent } from "./ui/Card";
 import { Spinner } from "./ui/Spinner";
 import { uploadCSV } from "../lib/api";
-import { ParsedCSVData } from "../lib/mockData";
 
 interface UploadScreenProps {
   userEmail: string;
-  onContinue: (data: ParsedCSVData) => void;
+  onContinue: () => void;
   onBack: () => void;
 }
 
@@ -211,14 +210,7 @@ export function UploadScreen({ userEmail, onContinue, onBack }: UploadScreenProp
               variant="primary"
               size="lg"
               className="w-full"
-              onClick={() =>
-                onContinue({
-                  workoutsDetected: 0,
-                  weeksCovered: 0,
-                  avgSessionsPerWeek: 0,
-                  topLifts: [],
-                })
-              }
+              onClick={() => onContinue()}
             >
               Continue
               <svg

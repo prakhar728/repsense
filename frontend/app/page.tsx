@@ -6,7 +6,6 @@ import { UploadScreen } from "../components/UploadScreen";
 import { FocusScreen } from "../components/FocusScreen";
 import { ChatLayout } from "../components/ChatLayout";
 import { ProgressIndicator } from "../components/ProgressIndicator";
-import { ParsedCSVData } from "../lib/mockData";
 import { getMagic } from "../lib/magic";
 
 type View = "login" | "upload" | "focus" | "chat";
@@ -14,7 +13,6 @@ type View = "login" | "upload" | "focus" | "chat";
 export default function Home() {
   const [view, setView] = useState<View>("login");
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
-  const [csvData, setCsvData] = useState<ParsedCSVData | null>(null);
   const [userEmail, setUserEmail] = useState("");
 
   useEffect(() => {
@@ -59,8 +57,7 @@ export default function Home() {
     }
   };
 
-  const handleCSVContinue = (data: ParsedCSVData) => {
-    setCsvData(data);
+  const handleCSVContinue = () => {
     setView("focus");
   };
 
@@ -138,9 +135,9 @@ export default function Home() {
             <UploadScreen userEmail={userEmail} onContinue={handleCSVContinue} onBack={handleBack} />
           )}
 
-          {view === "focus" && csvData && (
+          {view === "focus" && (
             <FocusScreen
-              csvData={csvData}
+              userEmail={userEmail}
               onBack={handleBack}
               onStartTraining={handleStartTraining}
             />
