@@ -24,9 +24,13 @@ dist/
 # macOS
 .DS_Store
 
-# Data files (user-specific, not tracked)
-data/*.csv
-data/user_profile.json
+# runtime data / databases
+backend/storage/app.db
+backend/storage/*.db
 
+# Data files (user-specific, not tracked)
+agentic/data/*.csv
+agentic/data/user_profile.json
+agentic/data/uploads/*.csv
 # Personal planning docs
 plan.md

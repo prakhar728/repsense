@@ -106,57 +106,58 @@ def generate_routine(
     #     "facts_count": len(facts)
     # }
 
-    PLAN_PROMPT = """You are an expert strength coach designing a TRAINING PLAN.
-
-RULES:
-- Base ALL decisions ONLY on the provided facts
-- Do NOT assume missing information
-- Infer plan duration and structure from the user's request
-- Prefer exercises mentioned in the facts
-- Address imbalances or undertrained muscles if present in facts
-- Keep volume realistic
-
-OUTPUT RULES:
-- Output VALID JSON ONLY
-- Do NOT include explanations outside JSON
-- Follow the schema exactly
-
-TRAINING PLAN JSON SCHEMA:
-{
-  "title": string,
-  "goal": string,
-  "level": string,
-  "plan_type": "single_session" | "weekly_plan" | "multi_week_program",
-  "duration": {
-    "weeks": number | null,
-    "days_per_week": number | null
-  },
-  "sessions": [
-    {
-      "day": string,
-      "focus": string,
-      "exercises": [
-        {
-          "name": string,
-          "primary_muscle": string,
-          "sets": number,
-          "reps": string,
-          "rest_seconds": number,
-          "notes": string
-        }
-      ]
-    }
-  ]
-}
-
-FACTS:
-{facts}
-
-USER REQUEST:
-{query}
-"""
-
     facts_text = "\n".join(facts)
+    query_text = query
+
+    PLAN_PROMPT = f"""You are an expert strength coach designing a TRAINING PLAN.
+
+    RULES:
+    - Base ALL decisions ONLY on the provided facts
+    - Do NOT assume missing information
+    - Infer plan duration and structure from the user's request
+    - Prefer exercises mentioned in the facts
+    - Address imbalances or undertrained muscles if present in facts
+    - Keep volume realistic
+
+    OUTPUT RULES:
+    - Output VALID JSON ONLY
+    - Do NOT include explanations outside JSON
+    - Follow the schema exactly
+
+    TRAINING PLAN JSON SCHEMA:
+    {{
+    "title": string,
+    "goal": string,
+    "level": string,
+    "plan_type": "single_session" | "weekly_plan" | "multi_week_program",
+    "duration": {{
+        "weeks": number | null,
+        "days_per_week": number | null
+    }},
+    "sessions": [
+        {{
+        "day": string,
+        "focus": string,
+        "exercises": [
+            {{
+            "name": string,
+            "primary_muscle": string,
+            "sets": number,
+            "reps": string,
+            "rest_seconds": number,
+            "notes": string
+            }}
+        ]
+        }}
+    ]
+    }}
+
+    FACTS:
+    {facts_text}
+
+    USER REQUEST:
+    {query}
+    """
 
     if client is None:
         # Safe deterministic fallback
@@ -192,10 +193,7 @@ USER REQUEST:
         messages=[
             {
                 "role": "system",
-                "content": PLAN_PROMPT.format(
-                    facts=facts_text,
-                    query=query
-                )
+                "content": PLAN_PROMPT
             }
         ],
         max_tokens=900
