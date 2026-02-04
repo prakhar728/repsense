@@ -135,7 +135,7 @@ export default function Home() {
           {view === "login" && <LoginScreen onLogin={handleLogin} />}
 
           {view === "upload" && (
-            <UploadScreen onContinue={handleCSVContinue} onBack={handleBack} />
+            <UploadScreen userEmail={userEmail} onContinue={handleCSVContinue} onBack={handleBack} />
           )}
 
           {view === "focus" && csvData && (

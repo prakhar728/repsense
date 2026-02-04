@@ -1,16 +1,13 @@
+import tempfile
 import os
-from pathlib import Path
 
 from fastapi import APIRouter, File, Form, UploadFile
 
 from agentic.src.main_profile_gen import run_profile_generation
+from backend.storage.profile_store import save_csv, save_profile
 
 
 router = APIRouter()
-
-BASE_DIR = Path(__file__).resolve().parents[2]
-DATA_DIR = BASE_DIR / "agentic" / "data"
-UPLOADS_DIR = DATA_DIR / "uploads"
 
 
 @router.post("/upload")
@@ -18,19 +15,24 @@ async def upload_profile(user_id: str = Form(...), file: UploadFile = File(...))
     """
     Handle workout CSV upload and trigger profile generation.
     """
-    # Ensure uploads directory exists
-    os.makedirs(UPLOADS_DIR, exist_ok=True)
-
-    # Save uploaded CSV
-    csv_path = UPLOADS_DIR / f"{user_id}_{file.filename}"
     contents = await file.read()
-    with open(csv_path, "wb") as f:
-        f.write(contents)
+    csv_text = contents.decode("utf-8")
 
-    # Run profile generation using the agentic pipeline
-    # Use absolute paths to avoid CWD issues.
-    output_path = DATA_DIR / "user_profile.json"
-    run_profile_generation(str(csv_path), output_path=str(output_path))
+    # Store raw CSV in the database
+    save_csv(user_id, file.filename, csv_text)
+
+    # Write to a temp file for the agentic pipeline (reads via pandas)
+    tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".csv", delete=False)
+    try:
+        tmp.write(csv_text)
+        tmp.close()
+
+        # Run profile generation — returns the profile dict
+        profile = run_profile_generation(tmp.name)
+
+        # Store the generated profile in the database
+        save_profile(user_id, profile)
+    finally:
+        os.unlink(tmp.name)
 
     return {"status": "profile_generated"}
-

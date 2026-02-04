@@ -5,11 +5,11 @@ from datetime import datetime, timedelta
 from .config import EXERCISE_MUSCLE_MAP
 
 
-def generate_user_profile(df: pd.DataFrame, output_path: str = "data/user_profile.json") -> dict:
+def generate_user_profile(df: pd.DataFrame, output_path: str = None) -> dict:
     """Analyze DataFrame and generate comprehensive user profile."""
     now = datetime.now()
     weeks_tracked = max((df["start_time"].max() - df["start_time"].min()).days / 7, 1)
-    
+
     profile = {
         "generated_at": now.isoformat(),
         "total_sets": len(df),
@@ -19,20 +19,21 @@ def generate_user_profile(df: pd.DataFrame, output_path: str = "data/user_profil
         "muscles": {},
         "global": calculate_global_stats(df, weeks_tracked)
     }
-    
+
     # Per-exercise stats
     for exercise_id in df["exercise_id"].unique():
         ex_df = df[df["exercise_id"] == exercise_id]
         profile["exercises"][exercise_id] = calculate_exercise_stats(ex_df, weeks_tracked)
-    
+
     # Per-muscle stats
     for muscle in df["primary_muscle"].unique():
         muscle_df = df[df["primary_muscle"] == muscle]
         profile["muscles"][muscle] = calculate_muscle_stats(muscle_df, df, muscle, weeks_tracked)
-    
-    with open(output_path, "w") as f:
-        json.dump(profile, f, indent=2, default=str)
-    
+
+    if output_path:
+        with open(output_path, "w") as f:
+            json.dump(profile, f, indent=2, default=str)
+
     return profile
 
 

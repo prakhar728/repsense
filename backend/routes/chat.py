@@ -1,26 +1,23 @@
-import json
 import os
-from pathlib import Path
 from typing import Any, Dict
-from dotenv import load_dotenv
 
-import pandas as pd
+from dotenv import load_dotenv
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from agentic.src.main_chat import run_chat_turn
 from backend.storage.chat_store import (
     ensure_chat_session,
+    get_all_messages,
     get_recent_messages,
+    get_user_sessions,
     save_message,
 )
 from backend.storage.routine_store import save_routine
+from backend.storage.profile_store import get_profile
 
 
 router = APIRouter()
-
-BASE_DIR = Path(__file__).resolve().parents[2]
-DATA_DIR = BASE_DIR / "agentic" / "data"
 
 
 class ChatMessageRequest(BaseModel):
@@ -29,19 +26,13 @@ class ChatMessageRequest(BaseModel):
     message: str
 
 
-def _load_context() -> tuple[pd.DataFrame, Dict[str, Any]]:
+def _load_context(user_id: str) -> Dict[str, Any]:
     """
-    Load workout dataframe and user profile from disk.
+    Load user profile from the database.
     """
-
-    profile_path = DATA_DIR / "user_profile.json"
-
-    if not profile_path.exists():
+    profile = get_profile(user_id)
+    if profile is None:
         raise HTTPException(status_code=500, detail="User profile not found.")
-
-
-    with open(profile_path, "r", encoding="utf-8") as f:
-        profile = json.load(f)
     return profile
 
 
@@ -58,6 +49,24 @@ def _get_openai_client():
     return OpenAI(api_key=api_key)
 
 
+@router.get("/sessions/{user_id}")
+async def list_sessions(user_id: str):
+    """
+    Return all chat sessions for a user with their last message.
+    """
+    sessions = get_user_sessions(user_id)
+    return {"sessions": sessions}
+
+
+@router.get("/sessions/{user_id}/{chat_id}/messages")
+async def list_messages(user_id: str, chat_id: str):
+    """
+    Return all messages for a chat session.
+    """
+    messages = get_all_messages(chat_id)
+    return {"messages": messages}
+
+
 @router.post("/message")
 async def chat_message(payload: ChatMessageRequest):
     """
@@ -71,7 +80,7 @@ async def chat_message(payload: ChatMessageRequest):
     _ = get_recent_messages(payload.chat_id, limit=10)
 
     # Prepare context for the agentic chat turn.
-    profile = _load_context()
+    profile = _load_context(payload.user_id)
     client = _get_openai_client()
 
     response = run_chat_turn(
@@ -84,7 +93,7 @@ async def chat_message(payload: ChatMessageRequest):
     if isinstance(response, dict) and response.get("type") == "routine":
         routine_json = response.get("routine_json") or {}
         routine_id = save_routine(routine_json)
-        assistant_text = f"routine-gen-{routine_id}"
+        assistant_text = f"I've generated a routine for you based on your training data.\n\n[routine:{routine_id}]"
 
         # Persist assistant message referencing the routine by ID only.
         save_message(payload.chat_id, "assistant", assistant_text, routine_id=routine_id)
@@ -92,10 +101,10 @@ async def chat_message(payload: ChatMessageRequest):
         return {"type": "routine", "text": assistant_text}
 
     # Normal chat response path
-    if isinstance(response, str) and response.get("type") == "advice":
-        save_message(payload.chat_id, "assistant", response)
-        return {"type": "chat", "text": response}
+    if isinstance(response, dict) and response.get("type") == "advice":
+        advice_text = response.get("advice", "")
+        save_message(payload.chat_id, "assistant", advice_text)
+        return {"type": "chat", "text": advice_text}
 
     # Fallback if agentic code returns an unexpected shape.
     raise HTTPException(status_code=500, detail="Unexpected response from chat engine.")
-

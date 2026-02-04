@@ -4,15 +4,14 @@ import os
 from .data_loader import load_and_normalize_csv, get_unsupported_exercises
 from .data_analyzer import generate_user_profile
 
-def run_profile_generation(csv_path: str, output_path: str = "data/user_profile.json") -> dict:
+def run_profile_generation(csv_path: str, output_path: str = None) -> dict:
     df = load_and_normalize_csv(csv_path)
-    normalized_csv_path = csv_path.replace(".csv", "_normalized.csv")
-    df.to_csv(normalized_csv_path, index=False)
-    profile = generate_user_profile(df,output_path)
+    profile = generate_user_profile(df, output_path)
 
-    with open(output_path, "w") as f:
+    if output_path:
         import json
-        json.dump(profile, f, indent=2)
+        with open(output_path, "w") as f:
+            json.dump(profile, f, indent=2)
 
     return profile
 

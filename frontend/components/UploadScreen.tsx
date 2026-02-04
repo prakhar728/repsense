@@ -4,18 +4,21 @@ import { useState, useCallback, DragEvent, ChangeEvent } from "react";
 import { Button } from "./ui/Button";
 import { Card, CardContent } from "./ui/Card";
 import { Spinner } from "./ui/Spinner";
-import { parseCSV, ParsedCSVData } from "../lib/mockData";
+import { uploadCSV } from "../lib/api";
+import { ParsedCSVData } from "../lib/mockData";
 
 interface UploadScreenProps {
+  userEmail: string;
   onContinue: (data: ParsedCSVData) => void;
   onBack: () => void;
 }
 
-export function UploadScreen({ onContinue, onBack }: UploadScreenProps) {
+export function UploadScreen({ userEmail, onContinue, onBack }: UploadScreenProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [isParsing, setIsParsing] = useState(false);
-  const [parsedData, setParsedData] = useState<ParsedCSVData | null>(null);
+  const [uploadDone, setUploadDone] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleDragOver = useCallback((e: DragEvent) => {
     e.preventDefault();
@@ -35,7 +38,7 @@ export function UploadScreen({ onContinue, onBack }: UploadScreenProps) {
     if (droppedFile && droppedFile.name.endsWith(".csv")) {
       processFile(droppedFile);
     }
-  }, []);
+  }, [userEmail]);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -47,11 +50,14 @@ export function UploadScreen({ onContinue, onBack }: UploadScreenProps) {
   const processFile = async (selectedFile: File) => {
     setFile(selectedFile);
     setIsParsing(true);
-    setParsedData(null);
+    setUploadDone(false);
+    setError(null);
 
     try {
-      const data = await parseCSV();
-      setParsedData(data);
+      await uploadCSV(userEmail, selectedFile);
+      setUploadDone(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Upload failed");
     } finally {
       setIsParsing(false);
     }
@@ -109,12 +115,12 @@ export function UploadScreen({ onContinue, onBack }: UploadScreenProps) {
           {isParsing ? (
             <div className="text-center">
               <Spinner size="lg" className="mx-auto mb-4" />
-              <p className="text-white font-medium">Parsing CSV…</p>
+              <p className="text-white font-medium">Uploading & analyzing...</p>
               <p className="text-neutral-400 text-sm mt-1">
-                Analyzing your workout history
+                Generating your training profile
               </p>
             </div>
-          ) : parsedData ? (
+          ) : uploadDone ? (
             <div className="text-center">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-emerald-500/20 flex items-center justify-center">
                 <svg
@@ -133,8 +139,28 @@ export function UploadScreen({ onContinue, onBack }: UploadScreenProps) {
               </div>
               <p className="text-white font-medium mb-1">{file?.name}</p>
               <p className="text-neutral-400 text-sm">
-                File uploaded successfully
+                Profile generated successfully
               </p>
+            </div>
+          ) : error ? (
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-red-500/20 flex items-center justify-center">
+                <svg
+                  className="w-8 h-8 text-red-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </div>
+              <p className="text-white font-medium mb-1">Upload failed</p>
+              <p className="text-red-400 text-sm">{error}</p>
             </div>
           ) : (
             <div className="text-center">
@@ -177,56 +203,24 @@ export function UploadScreen({ onContinue, onBack }: UploadScreenProps) {
         </div>
       </Card>
 
-      {/* Parsed Summary */}
-      {parsedData && (
+      {/* Continue button after successful upload */}
+      {uploadDone && (
         <Card variant="elevated" className="mt-6 animate-in slide-in-from-bottom-4 fade-in duration-300">
-          <div className="flex items-center gap-2 mb-6">
-            <div className="w-2 h-2 rounded-full bg-emerald-500" />
-            <h2 className="text-lg font-semibold text-white">Detected Summary</h2>
-          </div>
-
           <CardContent>
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              <div className="bg-neutral-800/50 rounded-xl p-4">
-                <p className="text-neutral-400 text-sm mb-1">Workouts detected</p>
-                <p className="text-2xl font-bold text-white">
-                  {parsedData.workoutsDetected}
-                </p>
-              </div>
-              <div className="bg-neutral-800/50 rounded-xl p-4">
-                <p className="text-neutral-400 text-sm mb-1">Weeks covered</p>
-                <p className="text-2xl font-bold text-white">
-                  {parsedData.weeksCovered}
-                </p>
-              </div>
-              <div className="bg-neutral-800/50 rounded-xl p-4">
-                <p className="text-neutral-400 text-sm mb-1">Avg sessions/week</p>
-                <p className="text-2xl font-bold text-white">
-                  {parsedData.avgSessionsPerWeek}
-                </p>
-              </div>
-              <div className="bg-neutral-800/50 rounded-xl p-4">
-                <p className="text-neutral-400 text-sm mb-1">Top lifts</p>
-                <div className="flex flex-wrap gap-1 mt-1">
-                  {parsedData.topLifts.map((lift) => (
-                    <span
-                      key={lift}
-                      className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-xs font-medium rounded-md"
-                    >
-                      {lift}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
             <Button
               variant="primary"
               size="lg"
               className="w-full"
-              onClick={() => onContinue(parsedData)}
+              onClick={() =>
+                onContinue({
+                  workoutsDetected: 0,
+                  weeksCovered: 0,
+                  avgSessionsPerWeek: 0,
+                  topLifts: [],
+                })
+              }
             >
-              Analyze & Continue
+              Continue
               <svg
                 className="w-5 h-5 ml-1"
                 fill="none"
@@ -248,7 +242,7 @@ export function UploadScreen({ onContinue, onBack }: UploadScreenProps) {
       {/* Helper text */}
       {!file && (
         <p className="text-center text-neutral-500 text-sm mt-6">
-          Export your data from Hevy: Settings → Export Data → Download CSV
+          Export your data from Hevy: Settings &rarr; Export Data &rarr; Download CSV
         </p>
       )}
     </div>
