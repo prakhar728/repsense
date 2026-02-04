@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-29T23:43:05.394337",
+  "generated_at": "2026-02-03T23:04:31.257685",
   "total_sets": 2326,
   "weeks_tracked": 109.0,
   "date_range": [
@@ -72,12 +72,14 @@
         }
       ],
       "trend": {
-        "direction": "insufficient_data",
-        "change_percent": 0
+        "direction": "plateau",
+        "avg_weight_recent": 63.0,
+        "avg_weight_previous": 62.7,
+        "change_percent": 0.4
       },
       "frequency_per_week": 0.8,
       "total_sessions": 82,
-      "days_since_last": 7,
+      "days_since_last": 12,
       "rep_distribution": {
         "heavy_1_5": 54.2,
         "moderate_6_10": 35.4,
@@ -131,7 +133,7 @@
           "session_volume": 1226.9
         }
       ],
-      "summary": "Trained 0.8x/week. PR: 90.72kg x 1. Est. 1RM: 90.7kg (from 90.72kg x 1). Favors heavy singles/doubles."
+      "summary": "Trained 0.8x/week. PR: 90.72kg x 1. Est. 1RM: 90.7kg (from 90.72kg x 1). Plateau. Favors heavy singles/doubles. Last trained 12 days ago."
     },
     "incline_fly": {
       "total_sets": 121,
@@ -198,12 +200,14 @@
         }
       ],
       "trend": {
-        "direction": "insufficient_data",
-        "change_percent": 0
+        "direction": "decreasing",
+        "avg_weight_recent": 27.2,
+        "avg_weight_previous": 34.0,
+        "change_percent": -20.0
       },
       "frequency_per_week": 0.4,
       "total_sessions": 45,
-      "days_since_last": 7,
+      "days_since_last": 12,
       "rep_distribution": {
         "heavy_1_5": 7.4,
         "moderate_6_10": 78.5,
@@ -244,7 +248,7 @@
           "session_volume": 680.4
         }
       ],
-      "summary": "Trained 0.4x/week. PR: 45.36kg x 6. Est. 1RM: 55.9kg (from 45.36kg x 7). Favors moderate reps (6-10)."
+      "summary": "Trained 0.4x/week. PR: 45.36kg x 6. Est. 1RM: 55.9kg (from 45.36kg x 7). Trending down (-20.0%). Favors moderate reps (6-10). Last trained 12 days ago."
     },
     "bicep_curl": {
       "total_sets": 14,
@@ -316,7 +320,7 @@
       },
       "frequency_per_week": 0.0,
       "total_sessions": 5,
-      "days_since_last": 7,
+      "days_since_last": 12,
       "rep_distribution": {
         "heavy_1_5": 28.6,
         "moderate_6_10": 35.7,
@@ -361,7 +365,7 @@
           "session_volume": 449.1
         }
       ],
-      "summary": "Trained 0.0x/week. PR: 40.0kg x 2. Est. 1RM: 43.4kg (from 31.75kg x 11)."
+      "summary": "Trained 0.0x/week. PR: 40.0kg x 2. Est. 1RM: 43.4kg (from 31.75kg x 11). Last trained 12 days ago."
     },
     "triceps_pushdown": {
       "total_sets": 132,
@@ -435,7 +439,7 @@
       },
       "frequency_per_week": 0.3,
       "total_sessions": 31,
-      "days_since_last": 7,
+      "days_since_last": 12,
       "rep_distribution": {
         "heavy_1_5": 23.5,
         "moderate_6_10": 42.4,
@@ -479,7 +483,7 @@
           "session_volume": 1251.9
         }
       ],
-      "summary": "Trained 0.3x/week. PR: 72.57kg x 3. Est. 1RM: 88.5kg (from 58.97kg x 15). Trending up (+5.9%)."
+      "summary": "Trained 0.3x/week. PR: 72.57kg x 3. Est. 1RM: 88.5kg (from 58.97kg x 15). Trending up (+5.9%). Last trained 12 days ago."
     },
     "lat_pulldown_close_grip": {
       "total_sets": 43,
@@ -553,7 +557,7 @@
       },
       "frequency_per_week": 0.1,
       "total_sessions": 15,
-      "days_since_last": 8,
+      "days_since_last": 13,
       "rep_distribution": {
         "heavy_1_5": 9.3,
         "moderate_6_10": 81.4,
@@ -598,7 +602,7 @@
           "session_volume": 1496.8
         }
       ],
-      "summary": "Trained 0.1x/week. PR: 60.0kg x 6. Est. 1RM: 79.8kg (from 54.43kg x 14). Trending down (-21.2%). Favors moderate reps (6-10). Last trained 8 days ago."
+      "summary": "Trained 0.1x/week. PR: 60.0kg x 6. Est. 1RM: 79.8kg (from 54.43kg x 14). Trending down (-21.2%). Favors moderate reps (6-10). Last trained 13 days ago."
     },
     "shoulder_press": {
       "total_sets": 350,
@@ -665,14 +669,14 @@
         }
       ],
       "trend": {
-        "direction": "plateau",
-        "avg_weight_recent": 34.5,
-        "avg_weight_previous": 32.9,
-        "change_percent": 4.8
+        "direction": "decreasing",
+        "avg_weight_recent": 30.2,
+        "avg_weight_previous": 32.5,
+        "change_percent": -7.0
       },
       "frequency_per_week": 0.9,
       "total_sessions": 98,
-      "days_since_last": 8,
+      "days_since_last": 13,
       "rep_distribution": {
         "heavy_1_5": 27.4,
         "moderate_6_10": 57.4,
@@ -715,7 +719,7 @@
           "session_volume": 1061.6
         }
       ],
-      "summary": "Trained 0.9x/week. PR: 58.97kg x 5. Est. 1RM: 68.9kg (from 54.43kg x 8). Plateau. Favors moderate reps (6-10). Last trained 8 days ago."
+      "summary": "Trained 0.9x/week. PR: 58.97kg x 5. Est. 1RM: 68.9kg (from 54.43kg x 8). Trending down (-7.0%). Favors moderate reps (6-10). Last trained 13 days ago."
     },
     "barbell_shrug": {
       "total_sets": 166,
@@ -783,13 +787,13 @@
       ],
       "trend": {
         "direction": "decreasing",
-        "avg_weight_recent": 50.5,
-        "avg_weight_previous": 73.8,
-        "change_percent": -31.7
+        "avg_weight_recent": 39.7,
+        "avg_weight_previous": 65.1,
+        "change_percent": -39.1
       },
       "frequency_per_week": 0.4,
       "total_sessions": 49,
-      "days_since_last": 8,
+      "days_since_last": 13,
       "rep_distribution": {
         "heavy_1_5": 5.4,
         "moderate_6_10": 32.5,
@@ -833,7 +837,7 @@
           "session_volume": 3891.7
         }
       ],
-      "summary": "Trained 0.4x/week. PR: 102.06kg x 8. Est. 1RM: 139.5kg (from 92.99kg x 15). Trending down (-31.7%). Favors high reps (11+). Last trained 8 days ago."
+      "summary": "Trained 0.4x/week. PR: 102.06kg x 8. Est. 1RM: 139.5kg (from 92.99kg x 15). Trending down (-39.1%). Favors high reps (11+). Last trained 13 days ago."
     },
     "reverse_curl": {
       "total_sets": 84,
@@ -907,7 +911,7 @@
       },
       "frequency_per_week": 0.3,
       "total_sessions": 32,
-      "days_since_last": 8,
+      "days_since_last": 13,
       "rep_distribution": {
         "heavy_1_5": 1.2,
         "moderate_6_10": 26.2,
@@ -951,7 +955,7 @@
           "session_volume": 918.4
         }
       ],
-      "summary": "Trained 0.3x/week. PR: 30.0kg x 10. Est. 1RM: 40.0kg (from 30.0kg x 10). Trending up (+10.0%). Favors high reps (11+). Last trained 8 days ago."
+      "summary": "Trained 0.3x/week. PR: 30.0kg x 10. Est. 1RM: 40.0kg (from 30.0kg x 10). Trending up (+10.0%). Favors high reps (11+). Last trained 13 days ago."
     },
     "squat": {
       "total_sets": 266,
@@ -1023,7 +1027,7 @@
       },
       "frequency_per_week": 0.5,
       "total_sessions": 59,
-      "days_since_last": 15,
+      "days_since_last": 20,
       "rep_distribution": {
         "heavy_1_5": 53.8,
         "moderate_6_10": 40.6,
@@ -1077,7 +1081,7 @@
           "session_volume": 2243.0
         }
       ],
-      "summary": "Trained 0.5x/week. PR: 120.2kg x 1. Favors heavy singles/doubles. Not trained in 15 days."
+      "summary": "Trained 0.5x/week. PR: 120.2kg x 1. Favors heavy singles/doubles. Not trained in 20 days."
     },
     "lat_pulldown": {
       "total_sets": 285,
@@ -1145,13 +1149,13 @@
       ],
       "trend": {
         "direction": "decreasing",
-        "avg_weight_recent": 38.8,
-        "avg_weight_previous": 46.0,
-        "change_percent": -15.6
+        "avg_weight_recent": 33.6,
+        "avg_weight_previous": 42.3,
+        "change_percent": -20.7
       },
       "frequency_per_week": 0.7,
       "total_sessions": 72,
-      "days_since_last": 15,
+      "days_since_last": 20,
       "rep_distribution": {
         "heavy_1_5": 17.5,
         "moderate_6_10": 52.3,
@@ -1193,7 +1197,7 @@
           "session_volume": 816.5
         }
       ],
-      "summary": "Trained 0.7x/week. PR: 63.5kg x 3. Est. 1RM: 76.0kg (from 60.0kg x 8). Trending down (-15.6%). Favors moderate reps (6-10). Not trained in 15 days."
+      "summary": "Trained 0.7x/week. PR: 63.5kg x 3. Est. 1RM: 76.0kg (from 60.0kg x 8). Trending down (-20.7%). Favors moderate reps (6-10). Not trained in 20 days."
     },
     "triceps_extension": {
       "total_sets": 27,
@@ -1267,7 +1271,7 @@
       },
       "frequency_per_week": 0.1,
       "total_sessions": 12,
-      "days_since_last": 15,
+      "days_since_last": 20,
       "rep_distribution": {
         "heavy_1_5": 0.0,
         "moderate_6_10": 40.7,
@@ -1308,7 +1312,7 @@
           "session_volume": 467.2
         }
       ],
-      "summary": "Trained 0.1x/week. PR: 27.22kg x 6. Est. 1RM: 32.7kg (from 27.22kg x 6). Trending down (-13.9%). Favors high reps (11+). Not trained in 15 days."
+      "summary": "Trained 0.1x/week. PR: 27.22kg x 6. Est. 1RM: 32.7kg (from 27.22kg x 6). Trending down (-13.9%). Favors high reps (11+). Not trained in 20 days."
     },
     "chest_fly_machine": {
       "total_sets": 209,
@@ -1375,14 +1379,14 @@
         }
       ],
       "trend": {
-        "direction": "decreasing",
+        "direction": "plateau",
         "avg_weight_recent": 45.4,
-        "avg_weight_previous": 50.5,
-        "change_percent": -10.3
+        "avg_weight_previous": 46.5,
+        "change_percent": -2.4
       },
       "frequency_per_week": 0.5,
       "total_sessions": 59,
-      "days_since_last": 15,
+      "days_since_last": 20,
       "rep_distribution": {
         "heavy_1_5": 31.1,
         "moderate_6_10": 45.5,
@@ -1426,7 +1430,7 @@
           "session_volume": 1333.6
         }
       ],
-      "summary": "Trained 0.5x/week. PR: 100.0kg x 5. Est. 1RM: 116.7kg (from 100.0kg x 5). Trending down (-10.3%). Not trained in 15 days."
+      "summary": "Trained 0.5x/week. PR: 100.0kg x 5. Est. 1RM: 116.7kg (from 100.0kg x 5). Plateau. Not trained in 20 days."
     },
     "deadlift": {
       "total_sets": 227,
@@ -1500,7 +1504,7 @@
       },
       "frequency_per_week": 0.4,
       "total_sessions": 46,
-      "days_since_last": 18,
+      "days_since_last": 23,
       "rep_distribution": {
         "heavy_1_5": 71.4,
         "moderate_6_10": 23.8,
@@ -1551,7 +1555,7 @@
           "session_volume": 335.6
         }
       ],
-      "summary": "Trained 0.4x/week. PR: 172.37kg x 1. Est. 1RM: 172.4kg (from 172.37kg x 1). Trending up (+6.1%). Favors heavy singles/doubles. Not trained in 18 days."
+      "summary": "Trained 0.4x/week. PR: 172.37kg x 1. Est. 1RM: 172.4kg (from 172.37kg x 1). Trending up (+6.1%). Favors heavy singles/doubles. Not trained in 23 days."
     },
     "romanian_deadlift": {
       "total_sets": 105,
@@ -1623,7 +1627,7 @@
       },
       "frequency_per_week": 0.3,
       "total_sessions": 32,
-      "days_since_last": 36,
+      "days_since_last": 41,
       "rep_distribution": {
         "heavy_1_5": 20.0,
         "moderate_6_10": 69.5,
@@ -1666,7 +1670,7 @@
           "session_volume": 2347.5
         }
       ],
-      "summary": "Trained 0.3x/week. PR: 102.06kg x 10. Est. 1RM: 136.1kg (from 102.06kg x 10). Favors moderate reps (6-10). Not trained in 36 days."
+      "summary": "Trained 0.3x/week. PR: 102.06kg x 10. Est. 1RM: 136.1kg (from 102.06kg x 10). Favors moderate reps (6-10). Not trained in 41 days."
     }
   },
   "muscles": {

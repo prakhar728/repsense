@@ -24,8 +24,9 @@ dist/
 # macOS
 .DS_Store
 
-# Data files (optional - remove if you want to track CSVs)
+# Data files (user-specific, not tracked)
 data/*.csv
+data/user_profile.json
 
 # Personal planning docs
 plan.md
