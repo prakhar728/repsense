@@ -118,6 +118,7 @@ def generate_routine(
     - Prefer exercises mentioned in the facts
     - Address imbalances or undertrained muscles if present in facts
     - Keep volume realistic
+    - For suggested_weight_kg, use the user's actual numbers from the facts (recent sessions, PRs) to recommend appropriate working weights. If no data exists for an exercise, set to null.
 
     OUTPUT RULES:
     - Output VALID JSON ONLY
@@ -144,6 +145,7 @@ def generate_routine(
             "primary_muscle": string,
             "sets": number,
             "reps": string,
+            "suggested_weight_kg": number | null,
             "rest_seconds": number,
             "notes": string
             }}
@@ -196,7 +198,7 @@ def generate_routine(
                 "content": PLAN_PROMPT
             }
         ],
-        max_tokens=900
+        max_tokens=1200
     )
 
     return json.loads(response.choices[0].message.content.strip())
