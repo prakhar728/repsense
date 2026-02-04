@@ -1,37 +1,111 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LoginScreen } from "../components/LoginScreen";
 import { UploadScreen } from "../components/UploadScreen";
 import { FocusScreen } from "../components/FocusScreen";
+import { ChatLayout } from "../components/ChatLayout";
 import { ProgressIndicator } from "../components/ProgressIndicator";
 import { ParsedCSVData } from "../lib/mockData";
+import { getMagic } from "../lib/magic";
 
-type Step = 1 | 2 | 3;
+type View = "login" | "upload" | "focus" | "chat";
 
 export default function Home() {
-  const [currentStep, setCurrentStep] = useState<Step>(1);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [view, setView] = useState<View>("login");
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [csvData, setCsvData] = useState<ParsedCSVData | null>(null);
+  const [userEmail, setUserEmail] = useState("");
 
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-    setCurrentStep(2);
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const magic = getMagic();
+        const loggedIn = await magic.user.isLoggedIn();
+        if (loggedIn) {
+          const info = await magic.user.getInfo();
+          setUserEmail(info.email || "");
+
+          const hasOnboarded = localStorage.getItem("repsense_onboarded");
+          if (hasOnboarded) {
+            setView("chat");
+          } else {
+            setView("upload");
+          }
+        }
+      } catch {
+        // Not logged in
+      } finally {
+        setIsCheckingAuth(false);
+      }
+    };
+    checkAuth();
+  }, []);
+
+  const handleLogin = async () => {
+    try {
+      const magic = getMagic();
+      const info = await magic.user.getInfo();
+      setUserEmail(info.email || "");
+    } catch {
+      // Fallback
+    }
+
+    const hasOnboarded = localStorage.getItem("repsense_onboarded");
+    if (hasOnboarded) {
+      setView("chat");
+    } else {
+      setView("upload");
+    }
   };
 
   const handleCSVContinue = (data: ParsedCSVData) => {
     setCsvData(data);
-    setCurrentStep(3);
+    setView("focus");
+  };
+
+  const handleStartTraining = () => {
+    localStorage.setItem("repsense_onboarded", "true");
+    setView("chat");
+  };
+
+  const handleLogout = async () => {
+    try {
+      const magic = getMagic();
+      await magic.user.logout();
+    } catch {
+      // Ignore
+    }
+    setUserEmail("");
+    setView("login");
   };
 
   const handleBack = () => {
-    if (currentStep === 2) {
-      setIsLoggedIn(false);
-      setCurrentStep(1);
-    } else if (currentStep === 3) {
-      setCurrentStep(2);
+    if (view === "upload") {
+      // Don't go back to login — just stay
+    } else if (view === "focus") {
+      setView("upload");
     }
   };
+
+  if (isCheckingAuth) {
+    return (
+      <main className="min-h-screen bg-neutral-950 text-white flex items-center justify-center">
+        <div className="fixed inset-0 bg-gradient-to-br from-emerald-950/20 via-neutral-950 to-neutral-950 pointer-events-none" />
+        <div className="relative z-10 animate-pulse text-neutral-400">
+          Loading...
+        </div>
+      </main>
+    );
+  }
+
+  // Chat view is full-screen with its own layout
+  if (view === "chat") {
+    return <ChatLayout userEmail={userEmail} onLogout={handleLogout} />;
+  }
+
+  const isOnboarding = view === "upload" || view === "focus";
+  const onboardingStep = view === "upload" ? 1 : 2;
 
   return (
     <main className="min-h-screen bg-neutral-950 text-white">
@@ -47,25 +121,29 @@ export default function Home() {
       />
 
       <div className="relative z-10">
-        {/* Progress Indicator (only show after login) */}
-        {isLoggedIn && (
+        {/* Progress Indicator (only during onboarding) */}
+        {isOnboarding && (
           <div className="fixed top-0 left-0 right-0 bg-neutral-950/80 backdrop-blur-md border-b border-neutral-800/50 z-20">
             <div className="max-w-4xl mx-auto">
-              <ProgressIndicator currentStep={currentStep} totalSteps={3} />
+              <ProgressIndicator currentStep={onboardingStep} totalSteps={2} />
             </div>
           </div>
         )}
 
         {/* Content area */}
-        <div className={isLoggedIn ? "pt-16" : ""}>
-          {currentStep === 1 && <LoginScreen onLogin={handleLogin} />}
+        <div className={isOnboarding ? "pt-16" : ""}>
+          {view === "login" && <LoginScreen onLogin={handleLogin} />}
 
-          {currentStep === 2 && (
+          {view === "upload" && (
             <UploadScreen onContinue={handleCSVContinue} onBack={handleBack} />
           )}
 
-          {currentStep === 3 && csvData && (
-            <FocusScreen csvData={csvData} onBack={handleBack} />
+          {view === "focus" && csvData && (
+            <FocusScreen
+              csvData={csvData}
+              onBack={handleBack}
+              onStartTraining={handleStartTraining}
+            />
           )}
         </div>
       </div>

@@ -15,6 +15,7 @@ import {
 interface FocusScreenProps {
   csvData: ParsedCSVData;
   onBack: () => void;
+  onStartTraining: () => void;
 }
 
 // Goal tag colors
@@ -25,7 +26,7 @@ const goalColors: Record<string, string> = {
   "Fat Loss": "bg-rose-500/20 text-rose-400",
 };
 
-export function FocusScreen({ csvData, onBack }: FocusScreenProps) {
+export function FocusScreen({ csvData, onBack, onStartTraining }: FocusScreenProps) {
   const [focus, setFocus] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [routines, setRoutines] = useState<Routine[]>([]);
@@ -271,7 +272,7 @@ export function FocusScreen({ csvData, onBack }: FocusScreenProps) {
                     {selectedRoutine.frequency} • {selectedRoutine.estimatedDuration}
                   </p>
                 </div>
-                <Button variant="primary" size="lg">
+                <Button variant="primary" size="lg" onClick={onStartTraining}>
                   Start training
                   <svg
                     className="w-5 h-5 ml-1"
