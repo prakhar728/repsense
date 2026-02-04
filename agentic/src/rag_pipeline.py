@@ -1,6 +1,6 @@
 """RAG pipeline - fact extraction and advice generation."""
 from .data_analyzer import load_user_profile
-
+import json
 
 COACH_PROMPT = """You are an experienced strength coach analyzing a user's training data.
 
@@ -89,3 +89,114 @@ def generate_advice(query: str, facts: list[str], client=None) -> str:
     )
     
     return response.choices[0].message.content.strip()
+
+def generate_routine(
+    query: str,
+    facts: list[str],
+    client=None
+) -> dict:
+    """
+    Generate a structured training plan (single session, weekly plan, or multi-week program)
+    based ONLY on extracted facts and the user's request.
+    """
+
+    # return {
+    #     "TEST_MARKER": "GENERATE_TRAINING_PLAN_CALLED",
+    #     "query": query,
+    #     "facts_count": len(facts)
+    # }
+
+    facts_text = "\n".join(facts)
+    query_text = query
+
+    PLAN_PROMPT = f"""You are an expert strength coach designing a TRAINING PLAN.
+
+    RULES:
+    - Base ALL decisions ONLY on the provided facts
+    - Do NOT assume missing information
+    - Infer plan duration and structure from the user's request
+    - Prefer exercises mentioned in the facts
+    - Address imbalances or undertrained muscles if present in facts
+    - Keep volume realistic
+
+    OUTPUT RULES:
+    - Output VALID JSON ONLY
+    - Do NOT include explanations outside JSON
+    - Follow the schema exactly
+
+    TRAINING PLAN JSON SCHEMA:
+    {{
+    "title": string,
+    "goal": string,
+    "level": string,
+    "plan_type": "single_session" | "weekly_plan" | "multi_week_program",
+    "duration": {{
+        "weeks": number | null,
+        "days_per_week": number | null
+    }},
+    "sessions": [
+        {{
+        "day": string,
+        "focus": string,
+        "exercises": [
+            {{
+            "name": string,
+            "primary_muscle": string,
+            "sets": number,
+            "reps": string,
+            "rest_seconds": number,
+            "notes": string
+            }}
+        ]
+        }}
+    ]
+    }}
+
+    FACTS:
+    {facts_text}
+
+    USER REQUEST:
+    {query}
+    """
+
+    if client is None:
+        # Safe deterministic fallback
+        return {
+            "title": "Full Body Training Plan",
+            "goal": "general_strength",
+            "level": "intermediate",
+            "plan_type": "single_session",
+            "duration": {
+                "weeks": None,
+                "days_per_week": None
+            },
+            "sessions": [
+                {
+                    "day": "Session 1",
+                    "focus": "Full Body",
+                    "exercises": [
+                        {
+                            "name": "Squat",
+                            "primary_muscle": "legs",
+                            "sets": 4,
+                            "reps": "6-8",
+                            "rest_seconds": 150,
+                            "notes": "Progress when all reps feel solid"
+                        }
+                    ]
+                }
+            ]
+        }
+
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {
+                "role": "system",
+                "content": PLAN_PROMPT
+            }
+        ],
+        max_tokens=900
+    )
+
+    return json.loads(response.choices[0].message.content.strip())

@@ -73,8 +73,12 @@ EXERCISE_MUSCLE_MAP = {
     }
 }
 
+# INTENT_TYPES--------------------------------
+
 class Intent:
     DATA_ACCESS = "DATA_ACCESS"
     REASONING = "REASONING"
+    ROUTINE_GENERATION = "ROUTINE_GENERATION"
 
 DATE_FORMAT = "%d %b %Y, %H:%M"
+#----------------------------------------------
