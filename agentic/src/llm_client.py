@@ -51,12 +51,11 @@ def get_client(api_key: Optional[str] = None):
     # Wrap with Opik if enabled
     if os.getenv("OPIK_ENABLED", "").lower() in ("1", "true", "yes"):
         try:
-            import opik
             from opik.integrations.openai import track_openai
 
-            # Project name defaults to "Repsense", can override via env var
-            project_name = os.getenv("OPIK_PROJECT_NAME", "Repsense")
-            opik.configure(use_local=False, project_name=project_name)
+            # Set default project name if not already set
+            if not os.getenv("OPIK_PROJECT_NAME"):
+                os.environ["OPIK_PROJECT_NAME"] = "Repsense"
 
             _client = track_openai(_client)
         except ImportError:
