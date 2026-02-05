@@ -126,5 +126,57 @@ agentic/
     ├── data_access.py        # Query parameter extraction
     ├── data_loader.py        # CSV loading & normalization
     ├── data_analyzer.py      # Stats computation & profile building
-    └── rag_pipeline.py       # Fact extraction & response generation
+    ├── rag_pipeline.py       # Fact extraction & response generation
+    ├── llm_client.py         # Centralized OpenAI client with Opik wrapping
+    ├── tracing.py            # Optional Opik instrumentation utilities
+    └── tracing_models.py     # Structured dataclasses for trace metadata
+```
+
+## Opik Observability
+
+Optional tracing via [Opik](https://www.comet.com/docs/opik/) for LLM observability. When disabled, all tracing code is no-op.
+
+### Setup
+
+```bash
+pip install opik
+opik configure  # Set API credentials
+```
+
+### Enable Tracing
+
+```bash
+export OPIK_ENABLED=1
+```
+
+### Run with Tracing
+
+```bash
+# Standalone interactive
+OPIK_ENABLED=1 python -m agentic.src.main_chat
+
+# With backend
+OPIK_ENABLED=1 uvicorn backend.app:app --reload
+```
+
+### What Gets Traced
+
+| Function | Logged Metadata |
+|----------|-----------------|
+| `run_feedback_turn` | Detection method, outcome type, target signals |
+| `rank_routine_candidates` | Full score breakdown per candidate (recency, target_match, etc.) |
+| `resolve_routine_for_feedback` | Decision reason, top score, score gap |
+| `classify_intent` | Intent, classification method |
+| `generate_routine` / `generate_advice` | Facts count, generation details |
+
+### Testing Without Opik
+
+Tests run normally without Opik installed or enabled. The `@maybe_track` decorator checks `OPIK_ENABLED` at runtime and becomes a no-op when disabled.
+
+```bash
+# Run tests without tracing
+python -m pytest
+
+# Run tests with tracing
+OPIK_ENABLED=1 python -m pytest
 ```

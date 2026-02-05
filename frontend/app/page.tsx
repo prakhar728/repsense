@@ -3,12 +3,10 @@
 import { useState, useEffect } from "react";
 import { LoginScreen } from "../components/LoginScreen";
 import { UploadScreen } from "../components/UploadScreen";
-import { FocusScreen } from "../components/FocusScreen";
 import { ChatLayout } from "../components/ChatLayout";
-import { ProgressIndicator } from "../components/ProgressIndicator";
 import { getMagic } from "../lib/magic";
 
-type View = "login" | "upload" | "focus" | "chat";
+type View = "login" | "upload" | "chat";
 
 export default function Home() {
   const [view, setView] = useState<View>("login");
@@ -58,10 +56,6 @@ export default function Home() {
   };
 
   const handleCSVContinue = () => {
-    setView("focus");
-  };
-
-  const handleStartTraining = () => {
     localStorage.setItem("repsense_onboarded", "true");
     setView("chat");
   };
@@ -78,11 +72,7 @@ export default function Home() {
   };
 
   const handleBack = () => {
-    if (view === "upload") {
-      // Don't go back to login — just stay
-    } else if (view === "focus") {
-      setView("upload");
-    }
+    // Don't go back to login from upload — just stay
   };
 
   if (isCheckingAuth) {
@@ -101,9 +91,6 @@ export default function Home() {
     return <ChatLayout userEmail={userEmail} onLogout={handleLogout} />;
   }
 
-  const isOnboarding = view === "upload" || view === "focus";
-  const onboardingStep = view === "upload" ? 1 : 2;
-
   return (
     <main className="min-h-screen bg-neutral-950 text-white">
       {/* Background gradient effect */}
@@ -118,31 +105,11 @@ export default function Home() {
       />
 
       <div className="relative z-10">
-        {/* Progress Indicator (only during onboarding) */}
-        {isOnboarding && (
-          <div className="fixed top-0 left-0 right-0 bg-neutral-950/80 backdrop-blur-md border-b border-neutral-800/50 z-20">
-            <div className="max-w-4xl mx-auto">
-              <ProgressIndicator currentStep={onboardingStep} totalSteps={2} />
-            </div>
-          </div>
+        {view === "login" && <LoginScreen onLogin={handleLogin} />}
+
+        {view === "upload" && (
+          <UploadScreen userEmail={userEmail} onContinue={handleCSVContinue} onBack={handleBack} />
         )}
-
-        {/* Content area */}
-        <div className={isOnboarding ? "pt-16" : ""}>
-          {view === "login" && <LoginScreen onLogin={handleLogin} />}
-
-          {view === "upload" && (
-            <UploadScreen userEmail={userEmail} onContinue={handleCSVContinue} onBack={handleBack} />
-          )}
-
-          {view === "focus" && (
-            <FocusScreen
-              userEmail={userEmail}
-              onBack={handleBack}
-              onStartTraining={handleStartTraining}
-            />
-          )}
-        </div>
       </div>
     </main>
   );

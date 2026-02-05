@@ -1,34 +1,73 @@
 """Query router - orchestrates query handling."""
 import pandas as pd
+from typing import Dict, Any
+
 from .config import Intent
 from .intent_classifier import classify_intent
 from .data_access import extract_query_params, get_exercise_history, format_history_response
 from .rag_pipeline import get_relevant_facts, generate_advice, generate_routine
+from .tracing import maybe_track, update_current_span, update_current_trace
 
 
-def handle_user_query(query: str, profile: dict, client=None) -> str:
+@maybe_track(name="handle_user_query")
+def handle_user_query(query: str, profile: dict, client=None) -> Dict[str, Any]:
     """Main entry point for handling user queries."""
-    intent = classify_intent(query, client)
+
+    # Classify intent (now returns tuple)
+    intent, intent_method = classify_intent(query, client)
+
+    # Extract query params
     params = extract_query_params(query, client)
+
+    # Get relevant facts
     facts = get_relevant_facts(params, profile)
 
-    # if intent == Intent.DATA_ACCESS:
-    #     history = get_exercise_history(df, params)
-    #     return format_history_response(history)
+    # Log the routing decision
+    update_current_span(metadata={
+        "routing": {
+            "intent": intent,
+            "intent_method": intent_method,
+            "target_type": params["target"]["type"],
+            "target_value": params["target"]["value"],
+            "facts_count": len(facts)
+        }
+    })
 
     if intent == Intent.ROUTINE_GENERATION:
-        plan = generate_routine(query, facts, client)
+        # Generate routine (now returns tuple)
+        plan, gen_method = generate_routine(query, facts, client)
+
+        update_current_span(metadata={
+            "response_type": "routine",
+            "generation_method": gen_method
+        })
+
         return {
             "type": "routine",
             "routine_json": plan
         }
 
-    elif intent == Intent.REASONING:  # REASONING
-        advice = generate_advice(query, facts, client)
+    elif intent == Intent.REASONING:
+        # Generate advice (now returns tuple)
+        advice, gen_method = generate_advice(query, facts, client)
+
+        update_current_span(metadata={
+            "response_type": "advice",
+            "generation_method": gen_method,
+            "advice_length": len(advice)
+        })
+
         return {
             "type": "advice",
             "advice": advice
         }
 
     else:
-        return "Wrong intent output from intent classifier."
+        update_current_span(metadata={
+            "response_type": "error",
+            "error": "unknown_intent"
+        })
+        return {
+            "type": "error",
+            "error": "Wrong intent output from intent classifier."
+        }

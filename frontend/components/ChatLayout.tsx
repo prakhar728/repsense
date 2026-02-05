@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { Sidebar } from "./Sidebar";
 import { ChatScreen } from "./ChatScreen";
+import { UploadModal } from "./UploadModal";
 import { ChatMessage, ChatSession } from "../lib/mockChat";
 import {
   sendMessage,
@@ -33,6 +34,7 @@ function toSidebarSessions(items: SessionItem[]): ChatSession[] {
 
 export function ChatLayout({ userEmail, onLogout }: ChatLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
   const [chatId, setChatId] = useState<string>(generateId());
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -51,6 +53,11 @@ export function ChatLayout({ userEmail, onLogout }: ChatLayoutProps) {
     setChatId(generateId());
     setMessages([]);
     setSidebarOpen(false);
+  }, []);
+
+  const handleUpdateData = useCallback(() => {
+    setSidebarOpen(false);
+    setUploadModalOpen(true);
   }, []);
 
   const handleSelectSession = useCallback(
@@ -128,6 +135,7 @@ export function ChatLayout({ userEmail, onLogout }: ChatLayoutProps) {
         activeSessionId={activeSessionId}
         onSelectSession={handleSelectSession}
         onNewChat={handleNewChat}
+        onUpdateData={handleUpdateData}
         onLogout={onLogout}
         userEmail={userEmail}
         isOpen={sidebarOpen}
@@ -138,6 +146,11 @@ export function ChatLayout({ userEmail, onLogout }: ChatLayoutProps) {
         onSendMessage={handleSendMessage}
         isReplying={isReplying}
         onToggleSidebar={() => setSidebarOpen((o) => !o)}
+      />
+      <UploadModal
+        userEmail={userEmail}
+        isOpen={uploadModalOpen}
+        onClose={() => setUploadModalOpen(false)}
       />
     </div>
   );
