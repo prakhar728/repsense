@@ -3,7 +3,7 @@ fastapi==0.115.7
 uvicorn==0.34.0
 pydantic==2.10.6
 python-multipart
-libsql-experimental
+# libsql-experimental
 
 # agentic
 pandas==2.1.4

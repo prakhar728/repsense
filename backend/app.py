@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -6,6 +7,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.routes.chat import router as chat_router
 from backend.routes.profile import router as profile_router
 from backend.routes.routines import router as routines_router
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 
 
 BASE_DIR = Path(__file__).resolve().parents[1]

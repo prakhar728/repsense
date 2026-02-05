@@ -29,6 +29,13 @@ def _init_db() -> None:
         )
         """
     )
+    # Add index for faster routine candidate queries
+    conn.execute(
+        """
+        CREATE INDEX IF NOT EXISTS idx_messages_routine_user 
+        ON chat_messages(routine_id, chat_id)
+        """
+    )
     conn.commit()
 
 

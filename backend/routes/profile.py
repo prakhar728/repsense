@@ -57,6 +57,17 @@ async def upload_profile(user_id: str = Form(...), file: UploadFile = File(...))
     return {"status": "profile_generated"}
 
 
+@router.get("/{user_id}")
+async def get_user_profile(user_id: str):
+    """
+    Check if a user profile exists.
+    """
+    profile = get_profile(user_id)
+    if profile is None:
+        return {"exists": False, "message": "Profile not found. Upload CSV via POST /profile/upload"}
+    return {"exists": True, "user_id": user_id}
+
+
 @router.post("/generate-routines")
 async def generate_routines(payload: GenerateRoutinesRequest):
     """
