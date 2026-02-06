@@ -79,6 +79,7 @@ class Intent:
     DATA_ACCESS = "DATA_ACCESS"
     REASONING = "REASONING"
     ROUTINE_GENERATION = "ROUTINE_GENERATION"
+    FEEDBACK = "FEEDBACK"
 
 DATE_FORMAT = "%d %b %Y, %H:%M"
 #----------------------------------------------

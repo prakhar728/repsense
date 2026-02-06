@@ -1,6 +1,6 @@
 """Query router - orchestrates query handling."""
 import pandas as pd
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 from .config import Intent
 from .intent_classifier import classify_intent
@@ -10,11 +10,22 @@ from .tracing import maybe_track, update_current_span, update_current_trace
 
 
 @maybe_track(name="handle_user_query")
-def handle_user_query(query: str, profile: dict, client=None) -> Dict[str, Any]:
-    """Main entry point for handling user queries."""
+def handle_user_query(query: str, profile: dict, client=None, override_intent: Optional[str] = None) -> Dict[str, Any]:
+    """
+    Main entry point for handling user queries.
 
-    # Classify intent (now returns tuple)
-    intent, intent_method = classify_intent(query, client)
+    Args:
+        query: Enriched query string
+        profile: User profile dict
+        client: OpenAI client
+        override_intent: If provided, skip classify_intent and use this intent (from unified_classify)
+    """
+
+    if override_intent:
+        intent = override_intent
+        intent_method = "unified_classifier"
+    else:
+        intent, intent_method = classify_intent(query, client)
 
     # Extract query params
     params = extract_query_params(query, client)
