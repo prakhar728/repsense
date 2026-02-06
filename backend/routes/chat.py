@@ -85,6 +85,7 @@ def _format_episodes_for_query(episodes: List[Dict[str, Any]]) -> List[Dict[str,
             "routine_title": routine_title,
             "muscles": muscles_str,
             "outcome_text": episode.get("outcome_text", ""),
+            "routine_json": routine_json,  # Include full routine structure for baseline
         })
     return formatted
 
@@ -281,7 +282,7 @@ async def chat_message(payload: ChatMessageRequest):
     # Handle routine generation
     if isinstance(response, dict) and response.get("type") == "routine":
         routine_json = response.get("routine_json") or {}
-        routine_id = save_routine(routine_json)
+        routine_id = save_routine(routine_json, payload.user_id)
         assistant_text = f"I've generated a routine for you based on your training data.\n\n[routine:{routine_id}]"
 
         save_message(payload.chat_id, "assistant", assistant_text, routine_id=routine_id)

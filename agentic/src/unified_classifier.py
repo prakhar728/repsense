@@ -14,6 +14,13 @@ Determine:
 2. Whether the message contains FEEDBACK about a previous workout routine
 3. If feedback is present, extract structured details
 
+=== INPUT STRUCTURE ===
+
+The input you receive has THREE sections:
+1. Chat History - previous conversation turns (CONTEXT ONLY)
+2. Previous Routines - past routines and outcomes (CONTEXT ONLY)
+3. Current Query - the user's ACTUAL current message (PRIMARY)
+
 === INTENT TYPES ===
 
 ROUTINE_GENERATION
@@ -25,18 +32,38 @@ REASONING
 - Examples: "how can I improve my squat", "am I overtraining", "what muscles am I neglecting"
 
 FEEDBACK
-- User is giving feedback about a PREVIOUS routine or workout
+- User is giving feedback about a PREVIOUS routine IN THEIR CURRENT MESSAGE
 - Positive: "worked well", "loved it", "saw progress", "completed it"
 - Negative: "too hard", "didn't like", "wasn't effective", "couldn't finish"
 - Injury/pain: "hurt my shoulder", "caused knee pain", "got injured"
 - Abandonment: "stopped doing it", "gave up", "abandoned after day 2"
+
+=== DETECTION RULES ===
+
+**CRITICAL: Where to detect intents from:**
+
+1. **Normal Case (default):**
+   - Detect intents ONLY from the "=== Current Query ===" section
+   - IGNORE feedback keywords in "Chat History" and "Previous Routines" sections
+   - Those sections are context/background, NOT current user feedback
+
+2. **Clarification Response Case (exception):**
+   - IF the last Assistant message in Chat History asks "Which routine are you referring to?"
+   - AND Current Query is very short/ambiguous (e.g., "1", "2", "the push one")
+   - THEN use Chat History context to understand which routine the user means
+   - This is ONLY for resolving clarification responses, not for intent detection
+
+**Examples:**
+- Current Query: "Give me a back routine" (Previous Routines mentions "too hard") → ROUTINE_GENERATION only (ignore context)
+- Current Query: "That push routine was too hard" → FEEDBACK detected (from Current Query)
+- After "Which routine?" clarification, Current Query: "1" → Use Chat History to understand "1" refers to
 
 === RULES ===
 
 - A message can have MULTIPLE intents. Examples:
   "that was too hard, give me an easier one" -> FEEDBACK + ROUTINE_GENERATION
   "that routine felt easy, what should I do?" -> FEEDBACK + REASONING
-- FEEDBACK can only be present if the user is commenting on a PREVIOUS routine/workout
+- FEEDBACK can only be present if the user is commenting on a PREVIOUS routine/workout IN CURRENT QUERY
 - If FEEDBACK is detected, you MUST also extract outcome and target signals
 - If user wants BOTH analysis AND a routine, choose ONLY ROUTINE_GENERATION (not both)
 - Valid intent combinations:

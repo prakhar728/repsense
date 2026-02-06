@@ -174,10 +174,29 @@ def generate_routine(
         episode_lines = []
         for ep in episodes[:5]:  # Limit to 5 most recent
             title = ep.get("routine_title", "Unknown")
-            muscles = ep.get("muscles", "")
             outcome = ep.get("outcome_text", "")
-            episode_lines.append(f"- {title} ({muscles}): {outcome}")
-        episodes_text = "\n".join(episode_lines)
+            routine_json = ep.get("routine_json", {})
+
+            # Format routine structure
+            routine_details = []
+            for session in routine_json.get("sessions", [])[:2]:  # Max 2 sessions per episode
+                session_focus = session.get("focus", "")
+                exercises = session.get("exercises", [])[:4]  # Max 4 exercises per session
+
+                exercise_lines = []
+                for ex in exercises:
+                    name = ex.get("name", "")
+                    sets = ex.get("sets", "")
+                    reps = ex.get("reps", "")
+                    exercise_lines.append(f"{name}: {sets}x{reps}")
+
+                if exercise_lines:
+                    routine_details.append(f"  {session_focus}: {'; '.join(exercise_lines)}")
+
+            routine_summary = "\n".join(routine_details) if routine_details else "  (Structure unavailable)"
+            episode_lines.append(f"- {title}\n{routine_summary}\n  Outcome: {outcome}")
+
+        episodes_text = "\n\n".join(episode_lines)
 
     # Log generation context
     log_generation_context(
@@ -246,7 +265,11 @@ def generate_routine(
     {f'''PREVIOUS FEEDBACK:
 {episodes_text}
 
-IMPORTANT: Use this feedback to adjust volume and intensity. If past routines were "too hard", reduce sets/reps by 20-30%. If they "worked well", maintain similar volume. If "too easy", increase volume by 10-20%.
+IMPORTANT: Use this feedback to adjust the NEW routine based on the OLD routine structure shown above.
+- If outcome was "too hard": Reduce sets by 1-2 OR reduce reps by 2-3 OR reduce both slightly
+- If outcome was "worked well": Use similar volume/structure as a good baseline
+- If outcome was "too easy": Add 1 set per exercise OR add 2-3 reps OR add an exercise
+- Maintain similar exercise selection unless feedback indicates issues with specific movements
 ''' if episodes_text else ''}
 
     USER REQUEST:
