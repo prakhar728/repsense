@@ -6,6 +6,20 @@ import Image from "next/image";
 import { ChatMessage, getMockReply, suggestedPrompts } from "../lib/mockChat";
 import { Spinner } from "./ui/Spinner";
 
+const CONTEXT_BLOCK_REGEX =
+  /\[\[context:[\s\S]*?\]\][\s\S]*?\[\[\/context\]\]\s*/g;
+
+function stripContextBlock(content: string): string {
+  return content.replace(
+    CONTEXT_BLOCK_REGEX,
+    ""
+  );
+}
+
+function hasContextBlock(content: string): boolean {
+  return CONTEXT_BLOCK_REGEX.test(content);
+}
+
 function renderMessageContent(content: string): ReactNode {
   const parts = content.split(/(\[routine:[\w-]+\])/g);
   return parts.map((part, i) => {
@@ -219,7 +233,29 @@ export function ChatScreen({
                         : "bg-emerald-500/10 text-neutral-200"
                     }`}
                   >
-                    {renderMessageContent(msg.content)}
+                    {msg.role === "user" && hasContextBlock(msg.content) && (
+                      <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-1 text-[11px] font-medium text-emerald-300">
+                        <svg
+                          className="h-3.5 w-3.5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 12h14M12 5l7 7-7 7"
+                          />
+                        </svg>
+                        Routine context attached
+                      </div>
+                    )}
+                    {renderMessageContent(
+                      msg.role === "user"
+                        ? stripContextBlock(msg.content)
+                        : msg.content
+                    )}
                   </div>
                 </div>
               </div>

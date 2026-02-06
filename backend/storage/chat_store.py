@@ -109,11 +109,14 @@ def get_user_sessions(user_id: str) -> List[Dict[str, Any]]:
     cursor = conn.execute(
         """
         SELECT s.id, s.created_at,
-               m.content AS last_message
+               u.content AS last_message
         FROM chat_sessions s
-        LEFT JOIN chat_messages m ON m.chat_id = s.id
-            AND m.created_at = (
-                SELECT MAX(m2.created_at) FROM chat_messages m2 WHERE m2.chat_id = s.id
+        LEFT JOIN chat_messages u ON u.chat_id = s.id
+            AND u.role = 'user'
+            AND u.created_at = (
+                SELECT MAX(m2.created_at)
+                FROM chat_messages m2
+                WHERE m2.chat_id = s.id AND m2.role = 'user'
             )
         WHERE s.user_id = ?
         ORDER BY s.created_at DESC

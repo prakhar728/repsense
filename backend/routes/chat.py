@@ -229,14 +229,17 @@ async def chat_message(payload: ChatMessageRequest):
 
     # Step 3: Handle FEEDBACK intent
     if classification.has_feedback and classification.target_signals:
-        candidates = get_routine_candidates(payload.user_id, days_back=60)
+        candidates = get_routine_candidates(payload.user_id, days_back=60)[:5]
 
         if candidates:
+            target_signals = dict(classification.target_signals or {})
+            target_signals["raw_feedback_text"] = payload.message
             routine_id, resolution_metadata = resolve_routine_for_feedback(
                 candidates,
-                classification.target_signals,
+                target_signals,
                 payload.chat_id,
-                _routine_in_chat_check
+                _routine_in_chat_check,
+                client=client,
             )
 
             update_current_span(metadata={"feedback_resolution": resolution_metadata})

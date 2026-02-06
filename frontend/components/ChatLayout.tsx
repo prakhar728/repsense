@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { Sidebar } from "./Sidebar";
 import { ChatScreen } from "./ChatScreen";
 import { UploadModal } from "./UploadModal";
@@ -40,6 +40,7 @@ export function ChatLayout({ userEmail, onLogout }: ChatLayoutProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isReplying, setIsReplying] = useState(false);
   const [sessions, setSessions] = useState<ChatSession[]>([]);
+  const pendingSentRef = useRef(false);
 
   // Load sessions on mount
   useEffect(() => {
@@ -127,6 +128,15 @@ export function ChatLayout({ userEmail, onLogout }: ChatLayoutProps) {
     },
     [userEmail, chatId, activeSessionId]
   );
+
+  useEffect(() => {
+    if (!userEmail || pendingSentRef.current) return;
+    const pending = localStorage.getItem("repsense_pending_chat_message");
+    if (!pending) return;
+    pendingSentRef.current = true;
+    localStorage.removeItem("repsense_pending_chat_message");
+    handleSendMessage(pending);
+  }, [userEmail, handleSendMessage]);
 
   return (
     <div className="flex h-screen bg-neutral-950 text-white">
