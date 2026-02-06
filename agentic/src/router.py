@@ -34,12 +34,14 @@ def handle_user_query(query: str, profile: dict, client=None, override_intent: O
     facts = get_relevant_facts(params, profile)
 
     # Log the routing decision
+    targets = params.get("targets", [])
     update_current_span(metadata={
         "routing": {
             "intent": intent,
             "intent_method": intent_method,
-            "target_type": params["target"]["type"],
-            "target_value": params["target"]["value"],
+            "targets_count": len(targets),
+            "target_types": [t["type"] for t in targets],
+            "target_values": [t["value"] for t in targets],
             "facts_count": len(facts)
         }
     })
