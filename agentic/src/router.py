@@ -1,6 +1,6 @@
 """Query router - orchestrates query handling."""
 import pandas as pd
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 
 from .config import Intent
 from .intent_classifier import classify_intent
@@ -10,7 +10,13 @@ from .tracing import maybe_track, update_current_span, update_current_trace
 
 
 @maybe_track(name="handle_user_query")
-def handle_user_query(query: str, profile: dict, client=None, override_intent: Optional[str] = None) -> Dict[str, Any]:
+def handle_user_query(
+    query: str,
+    profile: dict,
+    client=None,
+    override_intent: Optional[str] = None,
+    episodes: Optional[List[Dict[str, Any]]] = None
+) -> Dict[str, Any]:
     """
     Main entry point for handling user queries.
 
@@ -19,6 +25,7 @@ def handle_user_query(query: str, profile: dict, client=None, override_intent: O
         profile: User profile dict
         client: OpenAI client
         override_intent: If provided, skip classify_intent and use this intent (from unified_classify)
+        episodes: Optional list of formatted episodes for routine generation
     """
 
     if override_intent:
@@ -48,7 +55,7 @@ def handle_user_query(query: str, profile: dict, client=None, override_intent: O
 
     if intent == Intent.ROUTINE_GENERATION:
         # Generate routine (now returns tuple)
-        plan, gen_method = generate_routine(query, facts, client)
+        plan, gen_method = generate_routine(query, facts, client, episodes=episodes)
 
         update_current_span(metadata={
             "response_type": "routine",

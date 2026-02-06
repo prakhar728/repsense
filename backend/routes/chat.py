@@ -274,7 +274,8 @@ async def chat_message(payload: ChatMessageRequest):
         query=enriched_query,
         profile=profile,
         client=client,
-        override_intent=action_intent
+        override_intent=action_intent,
+        episodes=episodes
     )
 
     # Handle routine generation

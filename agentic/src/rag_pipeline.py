@@ -1,5 +1,5 @@
 """RAG pipeline - fact extraction and advice generation."""
-from typing import Tuple
+from typing import Tuple, Optional, List, Dict, Any
 import json
 
 from .data_analyzer import load_user_profile
@@ -150,16 +150,34 @@ def generate_advice(query: str, facts: list[str], client=None) -> Tuple[str, str
 def generate_routine(
     query: str,
     facts: list[str],
-    client=None
+    client=None,
+    episodes: Optional[List[Dict[str, Any]]] = None
 ) -> Tuple[dict, str]:
     """
     Generate a structured training plan (single session, weekly plan, or multi-week program)
     based ONLY on extracted facts and the user's request.
 
+    Args:
+        query: Enriched query string
+        facts: List of extracted facts about user's training data
+        client: OpenAI client
+        episodes: Optional list of formatted episodes with past feedback
+
     Returns:
         Tuple of (routine_dict, generation_method)
     """
     facts_text = "\n".join(facts)
+
+    # Format episodes for prompt
+    episodes_text = ""
+    if episodes:
+        episode_lines = []
+        for ep in episodes[:5]:  # Limit to 5 most recent
+            title = ep.get("routine_title", "Unknown")
+            muscles = ep.get("muscles", "")
+            outcome = ep.get("outcome_text", "")
+            episode_lines.append(f"- {title} ({muscles}): {outcome}")
+        episodes_text = "\n".join(episode_lines)
 
     # Log generation context
     log_generation_context(
@@ -171,19 +189,22 @@ def generate_routine(
         "generation_type": "routine",
         "facts_count": len(facts),
         "facts_text_length": len(facts_text),
-        "query_length": len(query)
+        "query_length": len(query),
+        "episodes_count": len(episodes) if episodes else 0,
+        "episodes_included": bool(episodes_text)
     })
 
     PLAN_PROMPT = f"""You are an expert strength coach designing a TRAINING PLAN.
 
     RULES:
-    - Base ALL decisions ONLY on the provided facts
+    - Base ALL decisions ONLY on the provided facts and previous feedback
     - Do NOT assume missing information
     - Infer plan duration and structure from the user's request
     - Prefer exercises mentioned in the facts
     - Address imbalances or undertrained muscles if present in facts
     - Keep volume realistic
     - For suggested_weight_kg, use the user's actual numbers from the facts (recent sessions, PRs) to recommend appropriate working weights. If no data exists for an exercise, set to null.
+    - IMPORTANT: If previous feedback indicates routines were too hard/easy, adjust volume and intensity accordingly
 
     OUTPUT RULES:
     - Output VALID JSON ONLY
@@ -221,6 +242,12 @@ def generate_routine(
 
     FACTS:
     {facts_text}
+
+    {f'''PREVIOUS FEEDBACK:
+{episodes_text}
+
+IMPORTANT: Use this feedback to adjust volume and intensity. If past routines were "too hard", reduce sets/reps by 20-30%. If they "worked well", maintain similar volume. If "too easy", increase volume by 10-20%.
+''' if episodes_text else ''}
 
     USER REQUEST:
     {query}
