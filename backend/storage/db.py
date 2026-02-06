@@ -1,16 +1,23 @@
 import os
+import sqlite3
 
-import libsql_experimental as libsql
 from dotenv import load_dotenv
 
 load_dotenv()
 
-TURSO_DATABASE_URL = os.getenv("TURSO_DATABASE_URL")
-TURSO_AUTH_TOKEN = os.getenv("TURSO_AUTH_TOKEN")
-
 
 def get_connection():
-    return libsql.connect(TURSO_DATABASE_URL, auth_token=TURSO_AUTH_TOKEN)
+    db_path = os.getenv("DB_PATH", "database.db")
+    return sqlite3.connect(db_path)
+
+
+# import libsql_experimental as libsql
+# TURSO_DATABASE_URL = os.getenv("TURSO_DATABASE_URL")
+# TURSO_AUTH_TOKEN = os.getenv("TURSO_AUTH_TOKEN")
+
+
+# def get_connection():
+#     return libsql.connect(TURSO_DATABASE_URL, auth_token=TURSO_AUTH_TOKEN)
 
 
 def rows_to_dicts(cursor):

@@ -1,4 +1,10 @@
-"""Feedback detection and routine resolution."""
+"""
+Feedback detection and routine resolution.
+
+DEPRECATED: This module is superseded by unified_classifier.py which combines
+feedback detection and intent classification in a single LLM call. This file
+is kept for backward compatibility.
+"""
 import json
 from typing import Dict, Any, Optional, Callable
 

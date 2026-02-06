@@ -1,4 +1,10 @@
-"""Intent classification using LLM."""
+"""
+Intent classification using LLM.
+
+DEPRECATED: This module is superseded by unified_classifier.py which combines
+intent classification and feedback detection in a single LLM call. This file
+is kept for backward compatibility with CLI mode (main_chat.py).
+"""
 import json
 from typing import Tuple
 

@@ -1,5 +1,5 @@
 """RAG pipeline - fact extraction and advice generation."""
-from typing import Tuple
+from typing import Tuple, Optional, List, Dict, Any
 import json
 
 from .data_analyzer import load_user_profile
@@ -23,44 +23,15 @@ Answer their question based on this data."""
 
 @maybe_track(name="get_relevant_facts")
 def get_relevant_facts(params: dict, profile: dict) -> list[str]:
-    """Extract rich, relevant facts from profile based on query params."""
+    """Extract rich, relevant facts from profile based on query params (supports multiple targets)."""
     facts = []
-    target = params["target"]
+    targets = params.get("targets", [])
 
     g = profile["global"]
     facts.append(f"[Global] {g['summary']}")
 
-    if target["type"] == "exercise" and target["value"] in profile["exercises"]:
-        ex = profile["exercises"][target["value"]]
-        facts.append(f"[Exercise: {target['value']}] {ex['summary']}")
-        facts.append(f"  - Total: {ex['total_sets']} sets, {ex['total_reps']} reps, {ex['total_volume_kg']}kg total volume")
-        facts.append(f"  - PR (heaviest): {ex['pr_weight']['display']} on {ex['pr_weight']['date']}")
-        facts.append(f"  - PR (best volume set): {ex['pr_volume']['display']} on {ex['pr_volume']['date']}")
-        facts.append(f"  - Estimated 1RM: {ex['estimated_1rm']['value']}kg (from {ex['estimated_1rm']['from_set']})")
-        facts.append(f"  - Trend: {ex['trend']['direction']} ({ex['trend']['change_percent']}% change)")
-        facts.append(f"  - Rep style: Heavy(1-5) {ex['rep_distribution']['heavy_1_5']}%, Moderate(6-10) {ex['rep_distribution']['moderate_6_10']}%, Light(11+) {ex['rep_distribution']['light_11_plus']}%")
-
-        if ex.get("top_sets"):
-            top_str = ", ".join([f"{s['display']} (e1RM:{s['e1rm']})" for s in ex["top_sets"][:3]])
-            facts.append(f"  - Top sets: {top_str}")
-
-        if ex["recent_sessions"]:
-            for session in ex["recent_sessions"][:2]:
-                facts.append(f"  - Session {session['date']}: {session['sets_display']} (vol: {session['session_volume']}kg)")
-
-    elif target["type"] == "muscle" and target["value"] in profile["muscles"]:
-        m = profile["muscles"][target["value"]]
-        facts.append(f"[Muscle: {target['value']}] {m['summary']}")
-        facts.append(f"  - Exercises: {', '.join(m['exercises'])}")
-        facts.append(f"  - Weekly sets: {m['weekly_sets_avg']} (recommended: {m['recommended_weekly_sets']})")
-        facts.append(f"  - Status: {m['status']}")
-
-        for ex_id in m["exercises"]:
-            if ex_id in profile["exercises"]:
-                ex = profile["exercises"][ex_id]
-                facts.append(f"  - {ex_id}: {ex['summary']}")
-
-    else:
+    if not targets:
+        # No specific targets - show training overview
         facts.append(f"[Training Overview]")
         facts.append(f"  - Sessions: {g['total_sessions']} over {g['weeks_tracked']} weeks")
         facts.append(f"  - Push/Pull ratio: {g['push_pull_ratio']}:1")
@@ -73,6 +44,38 @@ def get_relevant_facts(params: dict, profile: dict) -> list[str]:
         sorted_ex = sorted(exercises.items(), key=lambda x: x[1]["total_volume_kg"], reverse=True)[:3]
         top_str = ", ".join([f"{e[0]} ({e[1]['total_volume_kg']}kg)" for e in sorted_ex])
         facts.append(f"  - Top exercises: {top_str}")
+    else:
+        # Process each target
+        for target in targets:
+            if target["type"] == "exercise" and target["value"] in profile["exercises"]:
+                ex = profile["exercises"][target["value"]]
+                facts.append(f"[Exercise: {target['value']}] {ex['summary']}")
+                facts.append(f"  - Total: {ex['total_sets']} sets, {ex['total_reps']} reps, {ex['total_volume_kg']}kg total volume")
+                facts.append(f"  - PR (heaviest): {ex['pr_weight']['display']} on {ex['pr_weight']['date']}")
+                facts.append(f"  - PR (best volume set): {ex['pr_volume']['display']} on {ex['pr_volume']['date']}")
+                facts.append(f"  - Estimated 1RM: {ex['estimated_1rm']['value']}kg (from {ex['estimated_1rm']['from_set']})")
+                facts.append(f"  - Trend: {ex['trend']['direction']} ({ex['trend']['change_percent']}% change)")
+                facts.append(f"  - Rep style: Heavy(1-5) {ex['rep_distribution']['heavy_1_5']}%, Moderate(6-10) {ex['rep_distribution']['moderate_6_10']}%, Light(11+) {ex['rep_distribution']['light_11_plus']}%")
+
+                if ex.get("top_sets"):
+                    top_str = ", ".join([f"{s['display']} (e1RM:{s['e1rm']})" for s in ex["top_sets"][:3]])
+                    facts.append(f"  - Top sets: {top_str}")
+
+                if ex["recent_sessions"]:
+                    for session in ex["recent_sessions"][:2]:
+                        facts.append(f"  - Session {session['date']}: {session['sets_display']} (vol: {session['session_volume']}kg)")
+
+            elif target["type"] == "muscle" and target["value"] in profile["muscles"]:
+                m = profile["muscles"][target["value"]]
+                facts.append(f"[Muscle: {target['value']}] {m['summary']}")
+                facts.append(f"  - Exercises: {', '.join(m['exercises'])}")
+                facts.append(f"  - Weekly sets: {m['weekly_sets_avg']} (recommended: {m['recommended_weekly_sets']})")
+                facts.append(f"  - Status: {m['status']}")
+
+                for ex_id in m["exercises"]:
+                    if ex_id in profile["exercises"]:
+                        ex = profile["exercises"][ex_id]
+                        facts.append(f"  - {ex_id}: {ex['summary']}")
 
     # Log facts extraction
     facts_text = "\n".join(facts)
@@ -83,8 +86,9 @@ def get_relevant_facts(params: dict, profile: dict) -> list[str]:
     )
     update_current_span(metadata={
         "facts_extracted": len(facts),
-        "target_type": target["type"],
-        "target_value": target["value"],
+        "targets_count": len(targets),
+        "target_types": [t["type"] for t in targets],
+        "target_values": [t["value"] for t in targets],
         "facts_preview": facts[:3]  # First 3 facts for context
     })
 
@@ -146,16 +150,53 @@ def generate_advice(query: str, facts: list[str], client=None) -> Tuple[str, str
 def generate_routine(
     query: str,
     facts: list[str],
-    client=None
+    client=None,
+    episodes: Optional[List[Dict[str, Any]]] = None
 ) -> Tuple[dict, str]:
     """
     Generate a structured training plan (single session, weekly plan, or multi-week program)
     based ONLY on extracted facts and the user's request.
 
+    Args:
+        query: Enriched query string
+        facts: List of extracted facts about user's training data
+        client: OpenAI client
+        episodes: Optional list of formatted episodes with past feedback
+
     Returns:
         Tuple of (routine_dict, generation_method)
     """
     facts_text = "\n".join(facts)
+
+    # Format episodes for prompt
+    episodes_text = ""
+    if episodes:
+        episode_lines = []
+        for ep in episodes[:5]:  # Limit to 5 most recent
+            title = ep.get("routine_title", "Unknown")
+            outcome = ep.get("outcome_text", "")
+            routine_json = ep.get("routine_json", {})
+
+            # Format routine structure
+            routine_details = []
+            for session in routine_json.get("sessions", [])[:2]:  # Max 2 sessions per episode
+                session_focus = session.get("focus", "")
+                exercises = session.get("exercises", [])[:4]  # Max 4 exercises per session
+
+                exercise_lines = []
+                for ex in exercises:
+                    name = ex.get("name", "")
+                    sets = ex.get("sets", "")
+                    reps = ex.get("reps", "")
+                    exercise_lines.append(f"{name}: {sets}x{reps}")
+
+                if exercise_lines:
+                    routine_details.append(f"  {session_focus}: {'; '.join(exercise_lines)}")
+
+            routine_summary = "\n".join(routine_details) if routine_details else "  (Structure unavailable)"
+            episode_lines.append(f"- {title}\n{routine_summary}\n  Outcome: {outcome}")
+
+        episodes_text = "\n\n".join(episode_lines)
 
     # Log generation context
     log_generation_context(
@@ -167,19 +208,22 @@ def generate_routine(
         "generation_type": "routine",
         "facts_count": len(facts),
         "facts_text_length": len(facts_text),
-        "query_length": len(query)
+        "query_length": len(query),
+        "episodes_count": len(episodes) if episodes else 0,
+        "episodes_included": bool(episodes_text)
     })
 
     PLAN_PROMPT = f"""You are an expert strength coach designing a TRAINING PLAN.
 
     RULES:
-    - Base ALL decisions ONLY on the provided facts
+    - Base ALL decisions ONLY on the provided facts and previous feedback
     - Do NOT assume missing information
     - Infer plan duration and structure from the user's request
     - Prefer exercises mentioned in the facts
     - Address imbalances or undertrained muscles if present in facts
     - Keep volume realistic
     - For suggested_weight_kg, use the user's actual numbers from the facts (recent sessions, PRs) to recommend appropriate working weights. If no data exists for an exercise, set to null.
+    - IMPORTANT: If previous feedback indicates routines were too hard/easy, adjust volume and intensity accordingly
 
     OUTPUT RULES:
     - Output VALID JSON ONLY
@@ -217,6 +261,16 @@ def generate_routine(
 
     FACTS:
     {facts_text}
+
+    {f'''PREVIOUS FEEDBACK:
+{episodes_text}
+
+IMPORTANT: Use this feedback to adjust the NEW routine based on the OLD routine structure shown above.
+- If outcome was "too hard": Reduce sets by 1-2 OR reduce reps by 2-3 OR reduce both slightly
+- If outcome was "worked well": Use similar volume/structure as a good baseline
+- If outcome was "too easy": Add 1 set per exercise OR add 2-3 reps OR add an exercise
+- Maintain similar exercise selection unless feedback indicates issues with specific movements
+''' if episodes_text else ''}
 
     USER REQUEST:
     {query}

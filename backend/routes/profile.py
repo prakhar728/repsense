@@ -87,6 +87,6 @@ async def generate_routines(payload: GenerateRoutinesRequest):
     routine_json = generate_routine(payload.goal, facts, client)
 
     # Persist it
-    routine_id = save_routine(routine_json)
+    routine_id = save_routine(routine_json, payload.user_id)
 
     return {"routine_id": routine_id, "routine": routine_json}

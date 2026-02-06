@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 import pandas as pd
 import json
+from typing import Optional, List, Dict, Any
 
 from .router import handle_user_query
 from .llm_client import get_client
@@ -13,9 +14,11 @@ from .tracing import maybe_track
 def run_chat_turn(
     query: str,
     profile: dict,
-    client=None
+    client=None,
+    override_intent: Optional[str] = None,
+    episodes: Optional[List[Dict[str, Any]]] = None
 ) -> dict:
-    return handle_user_query(query, profile, client)
+    return handle_user_query(query, profile, client, override_intent=override_intent, episodes=episodes)
 
 
 def main():

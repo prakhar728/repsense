@@ -1,6 +1,6 @@
 """Query router - orchestrates query handling."""
 import pandas as pd
-from typing import Dict, Any
+from typing import Dict, Any, Optional, List
 
 from .config import Intent
 from .intent_classifier import classify_intent
@@ -10,11 +10,29 @@ from .tracing import maybe_track, update_current_span, update_current_trace
 
 
 @maybe_track(name="handle_user_query")
-def handle_user_query(query: str, profile: dict, client=None) -> Dict[str, Any]:
-    """Main entry point for handling user queries."""
+def handle_user_query(
+    query: str,
+    profile: dict,
+    client=None,
+    override_intent: Optional[str] = None,
+    episodes: Optional[List[Dict[str, Any]]] = None
+) -> Dict[str, Any]:
+    """
+    Main entry point for handling user queries.
 
-    # Classify intent (now returns tuple)
-    intent, intent_method = classify_intent(query, client)
+    Args:
+        query: Enriched query string
+        profile: User profile dict
+        client: OpenAI client
+        override_intent: If provided, skip classify_intent and use this intent (from unified_classify)
+        episodes: Optional list of formatted episodes for routine generation
+    """
+
+    if override_intent:
+        intent = override_intent
+        intent_method = "unified_classifier"
+    else:
+        intent, intent_method = classify_intent(query, client)
 
     # Extract query params
     params = extract_query_params(query, client)
@@ -23,19 +41,21 @@ def handle_user_query(query: str, profile: dict, client=None) -> Dict[str, Any]:
     facts = get_relevant_facts(params, profile)
 
     # Log the routing decision
+    targets = params.get("targets", [])
     update_current_span(metadata={
         "routing": {
             "intent": intent,
             "intent_method": intent_method,
-            "target_type": params["target"]["type"],
-            "target_value": params["target"]["value"],
+            "targets_count": len(targets),
+            "target_types": [t["type"] for t in targets],
+            "target_values": [t["value"] for t in targets],
             "facts_count": len(facts)
         }
     })
 
     if intent == Intent.ROUTINE_GENERATION:
         # Generate routine (now returns tuple)
-        plan, gen_method = generate_routine(query, facts, client)
+        plan, gen_method = generate_routine(query, facts, client, episodes=episodes)
 
         update_current_span(metadata={
             "response_type": "routine",

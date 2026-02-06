@@ -12,6 +12,8 @@ logger = logging.getLogger(__name__)
 from agentic.src.main_chat import run_chat_turn
 from agentic.src.llm_client import get_client
 from agentic.src.tracing import maybe_track, update_current_span, log_memory_enrichment
+from agentic.src.unified_classifier import unified_classify
+from agentic.src.feedback_resolver import resolve_routine_for_feedback
 from backend.storage.chat_store import (
     ensure_chat_session,
     get_all_messages,
@@ -21,7 +23,6 @@ from backend.storage.chat_store import (
 )
 from backend.storage.routine_store import save_routine
 from backend.storage.profile_store import get_profile
-from agentic.src.feedback_router import run_feedback_turn
 from backend.storage.episodic_store import (
     save_episode,
     get_routine_candidates,
@@ -84,6 +85,7 @@ def _format_episodes_for_query(episodes: List[Dict[str, Any]]) -> List[Dict[str,
             "routine_title": routine_title,
             "muscles": muscles_str,
             "outcome_text": episode.get("outcome_text", ""),
+            "routine_json": routine_json,  # Include full routine structure for baseline
         })
     return formatted
 
@@ -187,13 +189,14 @@ async def list_messages(user_id: str, chat_id: str):
 @router.post("/message")
 async def chat_message(payload: ChatMessageRequest):
     """
-    Handle a single chat message with persistent memory and optional routine generation.
+    Handle a single chat message using unified intent classification.
 
-    Two-stage processing:
-    - Stage A: Feedback detection & resolution (side-channel)
-    - Stage B: Intent handling with enriched context
+    New flow:
+    1. Build enriched query (chat history + episodes)
+    2. Unified classification (1 LLM call)
+    3. Handle FEEDBACK intent if present
+    4. Handle ROUTINE_GENERATION or REASONING intent
     """
-    # Log incoming request
     update_current_span(metadata={
         "request": {
             "user_id": payload.user_id,
@@ -202,72 +205,86 @@ async def chat_message(payload: ChatMessageRequest):
         }
     })
 
-    # Ensure a chat session exists and persist the user message.
     ensure_chat_session(payload.chat_id, payload.user_id)
     save_message(payload.chat_id, "user", payload.message)
 
     client = _get_openai_client()
-
-    # ===== STAGE A: Feedback Detection & Resolution =====
-    feedback_result = run_feedback_turn(
-        payload.user_id,
-        payload.chat_id,
-        payload.message,
-        get_routine_candidates,
-        _routine_in_chat_check,
-        client,
-    )
-
-    update_current_span(metadata={
-        "stage_a_result": {
-            "type": feedback_result.get("type"),
-            "resolved_routine_id": feedback_result.get("routine_id")
-        }
-    })
-
-    if feedback_result.get("type") == "resolved":
-        save_episode(
-            payload.user_id,
-            feedback_result["routine_id"],
-            feedback_result["outcome_type"],
-            feedback_result["outcome_text"],
-        )
-    elif feedback_result.get("type") == "clarification":
-        candidates = feedback_result.get("candidates", [])
-        lines = ["Which routine are you referring to?"]
-        for i, candidate in enumerate(candidates[:3], 1):
-            routine_title = candidate.get("routine_json", {}).get("title", f"Routine {candidate.get('id', 'unknown')[:8]}")
-            lines.append(f"{i}. {routine_title}")
-        return {"type": "clarification", "text": "\n".join(lines)}
-
-    # ===== STAGE B: Intent Handling =====
     profile = _load_context(payload.user_id)
+
+    # Step 1: Build enriched query
     messages = get_recent_messages(payload.chat_id, limit=10)
     episodes_raw = get_episodes_by_user(payload.user_id, limit=20)
     episodes = _format_episodes_for_query(episodes_raw[:5])
-
     enriched_query = _enrich_query_with_memory(payload.message, messages, episodes)
 
-    # Log enriched query for debugging
-    logger.info("=" * 80)
-    logger.info("ENRICHED QUERY SENT TO AGENTIC LAYER:")
-    logger.info("=" * 80)
-    logger.info(enriched_query)
-    logger.info("=" * 80)
+    logger.info(f"Enriched query length: {len(enriched_query)}")
 
+    # Step 2: Unified classification (1 LLM call)
+    classification = unified_classify(enriched_query, client)
+
+    update_current_span(metadata={
+        "unified_classification": classification.to_metadata(),
+        "classifier_version": "v2"
+    })
+
+    # Step 3: Handle FEEDBACK intent
+    if classification.has_feedback and classification.target_signals:
+        candidates = get_routine_candidates(payload.user_id, days_back=60)
+
+        if candidates:
+            routine_id, resolution_metadata = resolve_routine_for_feedback(
+                candidates,
+                classification.target_signals,
+                payload.chat_id,
+                _routine_in_chat_check
+            )
+
+            update_current_span(metadata={"feedback_resolution": resolution_metadata})
+
+            if routine_id:
+                save_episode(
+                    payload.user_id,
+                    routine_id,
+                    classification.outcome_type,
+                    classification.outcome_text,
+                )
+            elif resolution_metadata.get("decision") == "clarification":
+                # Always ask for clarification first, even if other intents exist
+                lines = ["Which routine are you referring to?"]
+                for i, candidate in enumerate(candidates[:3], 1):
+                    routine_title = candidate.get("routine_json", {}).get(
+                        "title", f"Routine {candidate.get('id', 'unknown')[:8]}"
+                    )
+                    lines.append(f"{i}. {routine_title}")
+
+                clarification_text = "\n".join(lines)
+                save_message(payload.chat_id, "assistant", clarification_text)
+                return {"type": "clarification", "text": clarification_text}
+
+    # Step 4: Handle action intent (ROUTINE_GENERATION or REASONING)
+    action_intent = classification.primary_intent
+
+    if action_intent == "FEEDBACK":
+        # Pure feedback with no other intent
+        ack_text = "Thanks for the feedback! I've noted that for your training history."
+        save_message(payload.chat_id, "assistant", ack_text)
+        return {"type": "chat", "text": ack_text}
+
+    # Route to generation pipeline with override
     response = run_chat_turn(
         query=enriched_query,
         profile=profile,
         client=client,
+        override_intent=action_intent,
+        episodes=episodes
     )
 
-    # Routine generation path
+    # Handle routine generation
     if isinstance(response, dict) and response.get("type") == "routine":
         routine_json = response.get("routine_json") or {}
-        routine_id = save_routine(routine_json)
+        routine_id = save_routine(routine_json, payload.user_id)
         assistant_text = f"I've generated a routine for you based on your training data.\n\n[routine:{routine_id}]"
 
-        # Persist assistant message referencing the routine by ID only.
         save_message(payload.chat_id, "assistant", assistant_text, routine_id=routine_id)
 
         update_current_span(metadata={
@@ -277,7 +294,7 @@ async def chat_message(payload: ChatMessageRequest):
 
         return {"type": "routine", "text": assistant_text}
 
-    # Normal chat response path
+    # Handle advice generation
     if isinstance(response, dict) and response.get("type") == "advice":
         advice_text = response.get("advice", "")
         save_message(payload.chat_id, "assistant", advice_text)
@@ -289,7 +306,7 @@ async def chat_message(payload: ChatMessageRequest):
 
         return {"type": "chat", "text": advice_text}
 
-    # Fallback if agentic code returns an unexpected shape.
+    # Unexpected response shape
     update_current_span(metadata={
         "response_type": "error",
         "error": "unexpected_response_shape"
