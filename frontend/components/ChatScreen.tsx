@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, KeyboardEvent, ReactNode } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ChatMessage, getMockReply, suggestedPrompts } from "../lib/mockChat";
 import { Spinner } from "./ui/Spinner";
 
@@ -117,20 +118,16 @@ export function ChatScreen({
           </svg>
         </button>
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center">
-            <svg
-              className="w-4 h-4 text-white"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M6.5 6.5L17.5 17.5" />
-              <path d="M17.5 6.5L6.5 17.5" />
-              <circle cx="12" cy="12" r="9" />
-            </svg>
+          <div className="w-8 h-8 rounded-xl bg-neutral-900/70 border border-emerald-500/30 flex items-center justify-center overflow-hidden shadow-[0_0_14px_rgba(16,185,129,0.22)]">
+            <Image
+              src="/assets/Logo.png?v=2"
+              alt="Repsense"
+              width={28}
+              height={28}
+              className="object-contain mix-blend-screen drop-shadow-[0_0_10px_rgba(16,185,129,0.35)]"
+              priority
+              unoptimized
+            />
           </div>
           <span className="text-sm font-semibold text-white">Repsense</span>
         </div>
@@ -149,20 +146,16 @@ export function ChatScreen({
         {isEmpty ? (
           /* Empty state */
           <div className="flex flex-col items-center justify-center h-full px-4">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center mb-6 shadow-lg shadow-emerald-500/20">
-              <svg
-                className="w-8 h-8 text-white"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M6.5 6.5L17.5 17.5" />
-                <path d="M17.5 6.5L6.5 17.5" />
-                <circle cx="12" cy="12" r="9" />
-              </svg>
+            <div className="w-20 h-20 rounded-3xl bg-neutral-900/70 border border-emerald-500/30 flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(16,185,129,0.25)] overflow-hidden">
+              <Image
+                src="/assets/Logo.png?v=2"
+                alt="Repsense"
+                width={52}
+                height={52}
+                className="object-contain mix-blend-screen drop-shadow-[0_0_12px_rgba(16,185,129,0.35)]"
+                priority
+                unoptimized
+              />
             </div>
             <h2 className="text-xl font-bold text-white mb-2">
               How can I help you train?
@@ -189,20 +182,14 @@ export function ChatScreen({
             {messages.map((msg) => (
               <div key={msg.id} className="flex gap-3">
                 {msg.role === "assistant" ? (
-                  <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
-                    <svg
-                      className="w-4 h-4 text-white"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M6.5 6.5L17.5 17.5" />
-                      <path d="M17.5 6.5L6.5 17.5" />
-                      <circle cx="12" cy="12" r="9" />
-                    </svg>
+                  <div className="w-7 h-7 rounded-lg bg-neutral-900/70 border border-emerald-500/30 flex items-center justify-center shrink-0 mt-0.5 overflow-hidden shadow-[0_0_10px_rgba(16,185,129,0.2)]">
+                    <Image
+                      src="/assets/Logo.png?v=2"
+                      alt="Repsense"
+                      width={20}
+                      height={20}
+                      className="object-contain mix-blend-screen"
+                    />
                   </div>
                 ) : (
                   <div className="w-7 h-7 rounded-lg bg-neutral-700 flex items-center justify-center shrink-0 mt-0.5">
@@ -241,20 +228,14 @@ export function ChatScreen({
             {/* Typing indicator */}
             {isReplying && (
               <div className="flex gap-3">
-                <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
-                  <svg
-                    className="w-4 h-4 text-white"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M6.5 6.5L17.5 17.5" />
-                    <path d="M17.5 6.5L6.5 17.5" />
-                    <circle cx="12" cy="12" r="9" />
-                  </svg>
+                <div className="w-7 h-7 rounded-lg bg-neutral-900/70 border border-emerald-500/30 flex items-center justify-center shrink-0 mt-0.5 overflow-hidden shadow-[0_0_10px_rgba(16,185,129,0.2)]">
+                  <Image
+                    src="/assets/Logo.png?v=2"
+                    alt="Repsense"
+                    width={20}
+                    height={20}
+                    className="object-contain mix-blend-screen"
+                  />
                 </div>
                 <div className="flex-1">
                   <p className="text-xs font-medium text-neutral-500 mb-1">

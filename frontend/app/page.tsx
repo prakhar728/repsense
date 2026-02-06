@@ -96,6 +96,10 @@ export default function Home() {
     return <ChatLayout userEmail={userEmail} onLogout={handleLogout} />;
   }
 
+  if (view === "login") {
+    return <LoginScreen onLogin={handleLogin} />;
+  }
+
   return (
     <main className="min-h-screen bg-neutral-950 text-white">
       {/* Background gradient effect */}
@@ -110,8 +114,6 @@ export default function Home() {
       />
 
       <div className="relative z-10">
-        {view === "login" && <LoginScreen onLogin={handleLogin} />}
-
         {view === "upload" && (
           <UploadScreen userEmail={userEmail} onContinue={handleCSVContinue} onBack={handleBack} />
         )}
