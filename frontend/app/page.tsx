@@ -5,6 +5,7 @@ import { LoginScreen } from "../components/LoginScreen";
 import { UploadScreen } from "../components/UploadScreen";
 import { ChatLayout } from "../components/ChatLayout";
 import { getMagic } from "../lib/magic";
+import { getUserProfileStatus } from "../lib/api";
 
 type View = "login" | "upload" | "chat";
 
@@ -22,9 +23,9 @@ export default function Home() {
           const info = await magic.user.getInfo();
           setUserEmail(info.email || "");
 
-          const hasOnboarded = localStorage.getItem("repsense_onboarded");
-          if (hasOnboarded) {
-            setView("chat");
+          if (info.email) {
+            const status = await getUserProfileStatus(info.email);
+            setView(status.exists ? "chat" : "upload");
           } else {
             setView("upload");
           }
@@ -47,16 +48,20 @@ export default function Home() {
       // Fallback
     }
 
-    const hasOnboarded = localStorage.getItem("repsense_onboarded");
-    if (hasOnboarded) {
-      setView("chat");
-    } else {
+    try {
+      const info = await getMagic().user.getInfo();
+      if (info.email) {
+        const status = await getUserProfileStatus(info.email);
+        setView(status.exists ? "chat" : "upload");
+      } else {
+        setView("upload");
+      }
+    } catch {
       setView("upload");
     }
   };
 
   const handleCSVContinue = () => {
-    localStorage.setItem("repsense_onboarded", "true");
     setView("chat");
   };
 

@@ -12,15 +12,22 @@ export default function RoutinePage() {
 
   const [routine, setRoutine] = useState<Record<string, unknown> | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<"auth" | "generic" | null>(null);
 
   useEffect(() => {
+    setLoading(true);
     getRoutine(id)
       .then((data) => {
         setRoutine(data);
-        if (!data) setError(true);
+        if (!data) setError("generic");
       })
-      .catch(() => setError(true))
+      .catch((err) => {
+        if (err instanceof Error && err.message === "auth") {
+          setError("auth");
+        } else {
+          setError("generic");
+        }
+      })
       .finally(() => setLoading(false));
   }, [id]);
 
@@ -35,7 +42,11 @@ export default function RoutinePage() {
   if (error || !routine) {
     return (
       <div className="min-h-screen bg-neutral-950 text-white flex flex-col items-center justify-center px-4">
-        <p className="text-neutral-400 mb-4">Routine not found</p>
+        <p className="text-neutral-400 mb-4">
+          {error === "auth"
+            ? "Please log in to view this routine."
+            : "Routine not found"}
+        </p>
         <button
           onClick={() => router.back()}
           className="text-emerald-500 hover:text-emerald-400 text-sm font-medium transition-colors"

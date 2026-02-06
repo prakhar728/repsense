@@ -134,6 +134,14 @@ export function ChatScreen({
           </div>
           <span className="text-sm font-semibold text-white">Repsense</span>
         </div>
+        <div className="ml-auto hidden sm:block">
+          <Link
+            href="/routines"
+            className="text-xs text-neutral-400 hover:text-white transition-colors border border-neutral-800 rounded-full px-3 py-1 hover:border-neutral-700"
+          >
+            View History
+          </Link>
+        </div>
       </div>
 
       {/* Messages area */}
