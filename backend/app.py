@@ -39,3 +39,7 @@ app.include_router(profile_router, prefix="/profile", tags=["profile"])
 app.include_router(chat_router, prefix="/chat", tags=["chat"])
 app.include_router(routines_router, prefix="/routines", tags=["routines"])
 
+
+@app.get("/healthz")
+def health_check():
+    return {"status": "ok"}
