@@ -2,7 +2,7 @@ import logging
 import os
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.routes.chat import router as chat_router
@@ -40,6 +40,7 @@ app.include_router(chat_router, prefix="/chat", tags=["chat"])
 app.include_router(routines_router, prefix="/routines", tags=["routines"])
 
 
-@app.get("/healthz")
-def health_check():
-    return {"status": "ok"}
+@app.api_route("/health", methods=["GET", "HEAD"])
+async def health_check(response: Response):
+    response.status_code = 200
+    return Response(content="OK", status_code=200)
