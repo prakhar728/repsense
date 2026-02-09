@@ -74,6 +74,18 @@ Frontend routes:
 - `http://localhost:3000/home` — Landing page
 - `http://localhost:3000/routines` — Routine history
 
+## How it works
+
+1. Users upload their workout history (CSV).
+2. The system generates a profile and uses it to create routines on request.
+3. When users give feedback (positive, negative, or injury), the system resolves which routine they mean and stores the outcome as episodic memory.
+4. Future prompts are enriched with recent chat context and past routine outcomes to generate better recommendations.
+5. Users can open new chats and still refer to previously generated workouts to improve and provide feedback to the agent.
+
+## Evaluation and observability
+
+We integrated Opik tracing to monitor LLM calls and enriched query construction, validating when memory and feedback are used in generation and evaluating output quality.
+
 ## Routine Feedback Resolution
 
 Feedback is resolved via a single LLM call that compares the user’s feedback text against the five most recent routine candidates. If ambiguous, the system asks a clarification question.
@@ -94,4 +106,3 @@ python3 -m backend.storage.reset_db
 
 - Routine endpoints are protected with Magic auth. If `MAGIC_SECRET_KEY` is missing, routine fetches will fail.
 - Routine history titles are disambiguated in the UI when duplicates exist.
-
