@@ -1,4 +1,5 @@
 import logging
+import os
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -23,9 +24,12 @@ app = FastAPI(
     version="0.1.0",
 )
 
+# Get allowed origins from environment, fallback to localhost for dev
+allowed_origins = os.getenv("FRONTEND_URL", "http://localhost:3000").split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
