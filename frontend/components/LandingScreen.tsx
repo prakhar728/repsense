@@ -2,12 +2,69 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Bebas_Neue, Space_Grotesk } from "next/font/google";
+import { getMagic } from "../lib/magic";
+import { getRoutine, getUserRoutines } from "../lib/api";
 
 const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400" });
 const space = Space_Grotesk({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 export function LandingScreen() {
+  const [metrics, setMetrics] = useState({
+    fatigue: 0.68,
+    load: 412,
+    focus: "Posterior",
+    isSample: true,
+  });
+
+  useEffect(() => {
+    const loadMetrics = async () => {
+      try {
+        const magic = getMagic();
+        const loggedIn = await magic.user.isLoggedIn();
+        if (!loggedIn) return;
+
+        const routines = await getUserRoutines();
+        if (!routines || routines.length === 0) return;
+
+        const latest = routines[0];
+        const routine = await getRoutine(latest.id);
+        if (!routine) return;
+
+        const sessions = Array.isArray(routine.sessions) ? routine.sessions : [];
+        let totalSets = 0;
+        const muscleCounts: Record<string, number> = {};
+
+        sessions.forEach((session: any) => {
+          const exercises = Array.isArray(session.exercises) ? session.exercises : [];
+          exercises.forEach((ex: any) => {
+            const sets = typeof ex.sets === "number" ? ex.sets : 0;
+            totalSets += sets;
+            const muscle = typeof ex.primary_muscle === "string" ? ex.primary_muscle : "";
+            if (muscle) {
+              muscleCounts[muscle] = (muscleCounts[muscle] || 0) + 1;
+            }
+          });
+        });
+
+        const topMuscle = Object.entries(muscleCounts).sort((a, b) => b[1] - a[1])[0]?.[0] || "General";
+        const fatigue = Math.min(1, Math.max(0.1, totalSets / 60));
+        const load = totalSets || sessions.length * 8;
+
+        setMetrics({
+          fatigue: Number(fatigue.toFixed(2)),
+          load,
+          focus: topMuscle,
+          isSample: false,
+        });
+      } catch {
+        // Keep sample metrics
+      }
+    };
+
+    loadMetrics();
+  }, []);
   return (
     <div className={`min-h-screen ${space.className} text-white`}>
       <div className="relative min-h-screen overflow-hidden bg-neutral-950">
@@ -52,15 +109,15 @@ export function LandingScreen() {
               </span>
             </h1>
             <p className="mt-6 text-lg text-neutral-300 leading-relaxed">
-              Repsense turns every set into signal. Upload your history, then
-              watch the system rewrite your program in real time.
+              Repsense turns every set into signal. Upload your history and get
+              tailored routines generated from your training data.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
               {[
-                "Adaptive routines",
+                "Tailored routines",
                 "Muscle-level insights",
-                "Recovery-aware load",
+                "Progress-aware suggestions",
                 "Feedback loop AI",
               ].map((label) => (
                 <span
@@ -90,9 +147,9 @@ export function LandingScreen() {
             {/* Faux data surface */}
             <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3" id="pulse">
               {[
-                { label: "Fatigue", value: "0.68", valueClass: "text-emerald-300", barClass: "bg-emerald-400" },
-                { label: "Load", value: "412", valueClass: "text-cyan-300", barClass: "bg-cyan-400" },
-                { label: "Focus", value: "Posterior", valueClass: "text-violet-300", barClass: "bg-violet-400" },
+                { label: "Fatigue", value: metrics.fatigue.toFixed(2), valueClass: "text-emerald-300", barClass: "bg-emerald-400" },
+                { label: "Load", value: metrics.load.toString(), valueClass: "text-cyan-300", barClass: "bg-cyan-400" },
+                { label: "Focus", value: metrics.focus, valueClass: "text-violet-300", barClass: "bg-violet-400" },
               ].map((card) => (
                 <div
                   key={card.label}
@@ -105,8 +162,16 @@ export function LandingScreen() {
                     {card.value}
                   </p>
                   <div className="mt-3 h-1.5 w-full rounded-full bg-neutral-800">
-                    <div className={`h-1.5 rounded-full ${card.barClass}`} style={{ width: "72%" }} />
+                    <div
+                      className={`h-1.5 rounded-full ${card.barClass}`}
+                      style={{ width: metrics.isSample ? "72%" : `${Math.min(100, Math.max(20, metrics.fatigue * 100))}%` }}
+                    />
                   </div>
+                  {metrics.isSample && (
+                    <p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-neutral-600">
+                      Sample
+                    </p>
+                  )}
                 </div>
               ))}
             </div>
@@ -155,11 +220,11 @@ export function LandingScreen() {
             {[
               {
                 title: "Muscle intelligence",
-                body: "Automatic muscle mapping translates your logs into precise targets.",
+                body: "Muscle mapping translates your logs into clear training targets.",
               },
               {
-                title: "Adaptive load",
-                body: "Weekly volume and intensity flex with your recovery data.",
+                title: "Progress-aware guidance",
+                body: "Use your training history to shape future routine recommendations.",
               },
               {
                 title: "Routine memory",
@@ -171,7 +236,7 @@ export function LandingScreen() {
               },
               {
                 title: "Session clarity",
-                body: "Daily sessions broken into focus blocks with clean cues.",
+                body: "Daily sessions are broken into focus blocks with clean cues.",
               },
               {
                 title: "History view",
@@ -199,9 +264,9 @@ export function LandingScreen() {
                 Your data becomes a training engine
               </h2>
               <p className="mt-4 text-neutral-300">
-                Upload once, then let the system adapt. Repsense watches your
-                fatigue, reshapes volume, and keeps the week aligned with your
-                goal.
+                Upload once, then let the system learn your history. Repsense
+                uses your logs and feedback to guide the next routine and keep
+                the week aligned with your goal.
               </p>
               <div className="mt-6 space-y-4">
                 {[
