@@ -118,7 +118,15 @@ export default function RoutinePage() {
                   )}
                 </div>
                 <div className="space-y-2">
-                  {exercises.map((ex, exIdx) => (
+                  {exercises.map((ex, exIdx) => {
+                    const note =
+                      typeof ex.notes === "string"
+                        ? ex.notes
+                        : ex.notes != null
+                        ? String(ex.notes)
+                        : "";
+
+                    return (
                     <div
                       key={exIdx}
                       className="flex items-center justify-between py-2 border-b border-neutral-700/50 last:border-0"
@@ -127,11 +135,11 @@ export default function RoutinePage() {
                         <span className="text-neutral-300">
                           {(ex.name as string) || (ex.exercise as string) || "Exercise"}
                         </span>
-                        {ex.notes && (
+                        {note ? (
                           <span className="text-xs text-neutral-500 italic">
-                            ({ex.notes as string})
+                            ({note})
                           </span>
-                        )}
+                        ) : null}
                       </div>
                       <div className="flex items-center gap-3">
                         {ex.suggested_weight_kg != null && (
@@ -148,7 +156,8 @@ export default function RoutinePage() {
                         </span>
                       </div>
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             );

@@ -9,10 +9,10 @@ async function getAuthHeaders(): Promise<HeadersInit> {
       console.warn("Auth: Magic reports user is not logged in.");
       return {};
     }
-    let token = await magic.user.getIdToken({ forceRefresh: true });
+    let token = await magic.user.getIdToken();
     if (!token) {
       await new Promise((resolve) => setTimeout(resolve, 250));
-      token = await magic.user.getIdToken({ forceRefresh: true });
+      token = await magic.user.getIdToken();
     }
     if (!token) {
       console.warn("Auth: Magic did not return an ID token.");
