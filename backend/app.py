@@ -44,3 +44,13 @@ app.include_router(routines_router, prefix="/routines", tags=["routines"])
 async def health_check(response: Response):
     response.status_code = 200
     return Response(content="OK", status_code=200)
+
+# Default route for the root path
+@app.get("/")
+async def root():
+    return {"message": "This is the Repsense Backend. No frontend content here."}
+
+# Route to handle favicon requests
+@app.get("/favicon.ico")
+async def favicon():
+    return Response(content="", media_type="image/x-icon")
